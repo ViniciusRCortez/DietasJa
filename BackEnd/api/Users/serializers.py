@@ -2,6 +2,21 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 import datetime 
 
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'is_superuser']
+    
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        validated_data['is_superuser'] = False
+        return super(UserSerializer, self).create(validated_data)
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
