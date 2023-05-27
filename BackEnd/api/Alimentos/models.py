@@ -6,7 +6,7 @@ class Alimento(models.Model):
     qtd_carboidratos = models.FloatField()
     qtd_gorduras = models.FloatField()
     qtd_proteinas = models.FloatField()
-    e_padrao = models.BooleanField() # Define se alimento é padrão ou da comunidade
+    e_padrao = models.BooleanField(default=False) # Define se alimento é padrão ou da comunidade
 
     def __str__ (self):
         return self.nome

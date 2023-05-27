@@ -47,5 +47,9 @@ urlpatterns = [
     path('api/sign-in/', CreateUserView.as_view()),
     path('api/get-all/', GetAllUsersView, name='get-all-users'),
     path('api/get-user/', GetUserByEmailView, name='get-user-by-email'),
-    path('api/buscar-alimentos/', BuscarAlimentosView.as_view(), name="buscar-alimentos")
+    path('api/buscar-alimentos/', AlimentosView.as_view(), name="buscar-alimentos"),
+    path('api/buscar-alimentos-padroes/', AlimentosPadroesView.as_view(), name="buscar-alimentos-padroes"),
+    path('api/inserir-alimento-padrao/', AlimentosPadroesView.as_view(), name="inserir-alimento-padrao"),
+    path('api/buscar-alimentos-da-comunidade/', AlimentosDaComunidadeView.as_view(),name="buscar-alimentos-da-comunidade"),
+    path('api/inserir-alimento-da-comunidade/', AlimentosDaComunidadeView.as_view(),name="inserir-alimento-da-comunidade")
 ]
