@@ -43,13 +43,13 @@ def GetAllUsersView(request):
     #Busca todos os Users
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
-    
+
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def GetUserByEmailView(request):
+def GetUserByUsernameView(request):
     # Obtém o token JWT do cabeçalho Authorization
     token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
     
@@ -58,10 +58,37 @@ def GetUserByEmailView(request):
     
     # Acessar campos do token JWT
     access_token = AccessToken(token)
-    user_email = access_token.payload['user']
+    username = access_token.payload['user']
 
     # Busca o user
-    user = User.objects.get(username=user_email)
+    user = User.objects.get(username=username)
     serializer = UserSerializer(user, many=False)
 
     return Response(serializer.data)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def UpdateUserByUsernameView(request):
+    # Obtém o token JWT do cabeçalho Authorization
+    token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+
+    # Decodifica o token JWT
+    decoded_token = jwt.decode(token, options={"verify_signature": False})
+
+    # Acessar campos do token JWT
+    access_token = AccessToken(token)
+    username = access_token.payload['user']
+
+    # Busca o usuário pelo user
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({'error': 'Usuário não encontrado.'}, status=404)
+
+    # Atualiza o usuário com os dados fornecidos na solicitação PATCH
+    serializer = UserSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=200)
+    return Response(serializer.errors, status=400)

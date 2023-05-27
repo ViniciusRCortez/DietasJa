@@ -45,5 +45,6 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/sign-in/', CreateUserView, name='create-user'),
     path('api/get-all/', GetAllUsersView, name='get-all-users'),
-    path('api/get-user/', GetUserByEmailView, name='get-user-by-email'),
+    path('api/get-user/', GetUserByUsernameView, name='get-user-by-username'),
+    path('api/update-user/', UpdateUserByUsernameView, name='update-user-by-username'),
 ]
