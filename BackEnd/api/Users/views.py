@@ -13,28 +13,37 @@ from rest_framework_simplejwt.tokens import AccessToken
 import jwt
 
 
-
-#@api_view(['POST'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
-class CreateUserView(CreateAPIView):
-    model = User
-    permission_classes = [
-        permissions.AllowAny
-    ]
-    serializer_class = UserSerializer
+def CreateUserView(request):
+    #Verifica se o usuario está no formato correto ou já exite
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+        return Response(serializer.data, status=201)
+
+    return Response(serializer.errors, status=400)
 
 
-#@api_view(['POST'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
-class MyTokenObtainPairView(TokenViewBase):
-    serializer_class = MyTokenObtainPairSerializer
+def MyTokenObtainPairView(request):
+    #Gera o Token
+    serializer = MyTokenObtainPairSerializer(data=request.data)
+    #Valida o Token
+    serializer.is_valid(raise_exception=True)
+
+    return Response(serializer.validated_data, status=200)
 
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def GetAllUsersView(request):
+    #Busca todos os Users
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
+    
     return Response(serializer.data)
 
 
