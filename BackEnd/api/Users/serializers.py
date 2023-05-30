@@ -10,10 +10,11 @@ from django.contrib.auth.hashers import make_password
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     is_superuser = serializers.BooleanField(read_only=True)
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'is_superuser']
+        fields = ['id', 'username', 'email', 'password', 'is_superuser']
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))

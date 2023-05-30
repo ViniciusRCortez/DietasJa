@@ -47,4 +47,7 @@ urlpatterns = [
     path('api/get-all/', GetAllUsersView, name='get-all-users'),
     path('api/get-user/', GetUserByUsernameView, name='get-user-by-username'),
     path('api/update-user/', UpdateUserByUsernameView, name='update-user-by-username'),
+    path('api/update-user-id/<int:user_id>', UpdateUserByIdView, name='update-another-user-by-id'),
+    path('api/delete-user/', DeleteUserByUsernameView, name='delete-user-by-username'),
+    path('api/delete-user-id/<int:user_id>', DeleteUserByIdView, name='delete-another-user-by-id'),
 ]
