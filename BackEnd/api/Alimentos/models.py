@@ -1,7 +1,7 @@
 from django.db import models
 
 class Alimento(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.CharField(max_length=200, unique=True)
     qtd_calorias = models.FloatField()
     qtd_carboidratos = models.FloatField()
     qtd_gorduras = models.FloatField()
