@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
 from Users.views import *
 from Alimentos.views import *
+from UserMetrics.views import*
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from rest_framework import permissions
@@ -52,5 +55,7 @@ urlpatterns = [
     path('api/delete-user/', DeleteUserByUsernameView, name='delete-user-by-username'),
     path('api/delete-user-id/<int:user_id>', DeleteUserByIdView, name='delete-another-user-by-id'),
     path('api/alimentos/', AlimentosView.as_view(), name="alimentos"),
-    path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes")
+    path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes"),
+    path('api/user-metrics/', UserMetricView.as_view(), name="user-metrics"),
+    path('api/new-user-metrics/', NewUserMetricView.as_view(), name="post-user-metrics"),
 ]

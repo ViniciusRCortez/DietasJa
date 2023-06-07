@@ -6,14 +6,14 @@ class UserMetric(models.Model):
         ('M', 'Masculino'),
         ('F', 'Feminino'),
     ]
-    
+
     nome = models.CharField(max_length=200)
     genero = models.CharField(max_length=200, choices=GENERO_CHOICES)
     altura = models.FloatField()
     peso = models.FloatField()
     idade = models.IntegerField()
-    imc = models.FloatField()
-    tmb = models.FloatField()
+    imc = models.FloatField(blank=True)
+    tmb = models.FloatField(blank=True)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def calcular_imc(self):
