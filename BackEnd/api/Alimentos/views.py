@@ -24,7 +24,7 @@ class AlimentosView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)  # Retorna a resposta 204 - "No Content"
         
         serializer = AlimentoSerializer(alimentos, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     # Função que insere um alimento da comunidade
     def post(self, request, format=None):
@@ -61,8 +61,23 @@ class AlimentosView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status.HTTP_200_OK)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, idAlimento, format=None):
+        # Busca alimento pelo id
+        try:
+            alimentoExcluir = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            return Response({'erro: alimento a excluir não está cadastrado'}, status=status.HTTP_204_NO_CONTENT)
+        
+        # Verificando permissão (usuário cliente só pode excluir alimentos da comunidade)
+        if (alimentoExcluir.e_padrao):
+            return Response({'erro: usuário não tem permissão para excluir alimento padrão'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Excluindo alimento
+        alimentoExcluir.delete()
+        return Response({'sucesso: alimento foi excluído'}, status=status.HTTP_200_OK)
 
 @permission_classes([IsAdminUser])
 class AlimentosPadroesView(APIView):
@@ -95,5 +110,16 @@ class AlimentosPadroesView(APIView):
         serializer = AlimentoSerializer(alimentoAtualizar, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status.HTTP_200_OK)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, idAlimento, format=None):
+        # Busca alimento pelo id
+        try:
+            alimentoExcluir = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            return Response({'erro: alimento a excluir não está cadastrado'}, status=status.HTTP_204_NO_CONTENT)
+                
+        # Excluindo alimento
+        alimentoExcluir.delete()
+        return Response({'sucesso: alimento foi excluído'}, status=status.HTTP_200_OK)
