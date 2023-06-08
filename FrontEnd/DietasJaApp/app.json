@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "appDietasJa",
+    "slug": "appDietasJa",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
+
+
+
