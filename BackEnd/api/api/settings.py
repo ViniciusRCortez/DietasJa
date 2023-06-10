@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'Users',
-    'Alimentos'
+    'Alimentos',
+    'MetaDiaria'
 ]
 
 MIDDLEWARE = [
