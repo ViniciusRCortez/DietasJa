@@ -42,7 +42,10 @@ class AlimentosView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # Retorna erro
     
     # Função que faz um update em um alimento da comunidade com base no seu id
-    def patch(self, request, idAlimento, format=None):
+    def patch(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
         # Busca alimento pelo id especificado pelo usuário
         try:
             alimentoAtualizar = Alimento.objects.get(id=idAlimento)
@@ -59,12 +62,16 @@ class AlimentosView(APIView):
         dadosAlimento["e_padrao"] = False # Setando (ou adicionando, caso campo não exista) elemento e_padrao = False ao dicionário que representa o alimento (Garante que alimento continua da comunidade após atualização)
         serializer = AlimentoSerializer(alimentoAtualizar, data=dadosAlimento, partial=True)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, idAlimento, format=None):
+    def delete(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
         # Busca alimento pelo id
         try:
             alimentoExcluir = Alimento.objects.get(id=idAlimento)
@@ -97,7 +104,11 @@ class AlimentosPadroesView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # Retorna erro
     
     # Função que faz um update em um alimento da comunidade ou padrão com base no seu id
-    def patch(self, request, idAlimento, format=None):
+    def patch(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
         # Busca alimento pelo id especificado pelo usuário
         try:
             alimentoAtualizar = Alimento.objects.get(id=idAlimento)
@@ -108,12 +119,16 @@ class AlimentosPadroesView(APIView):
         # Atualizando alimento com base nos dados recebidos da requisição PATCH
         # Admin pode alterar categoria do alimento, por isso nenhuma verificação/imposição relacionada a isso precisa ser feita
         serializer = AlimentoSerializer(alimentoAtualizar, data=request.data, partial=True)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, idAlimento, format=None):
+    def delete(self, request, idAlimento=None, format=None):
+        # Verificando se o conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
         # Busca alimento pelo id
         try:
             alimentoExcluir = Alimento.objects.get(id=idAlimento)
