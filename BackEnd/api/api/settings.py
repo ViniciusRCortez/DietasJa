@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'Users',
     'Alimentos',
-    'MetaDiaria'
+    'MetaDiaria',
+    'MetaGamificada'
 ]
 
 MIDDLEWARE = [
