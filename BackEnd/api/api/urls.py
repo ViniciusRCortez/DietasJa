@@ -58,4 +58,5 @@ urlpatterns = [
     path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes"),
     path('api/user-metrics/', UserMetricView.as_view(), name="user-metrics"),
     path('api/new-user-metrics/', NewUserMetricView.as_view(), name="post-user-metrics"),
+    path('api/protected-user-metrics/', ProtectedUserMetricView.as_view(), name="admin-user-metrics"),
 ]
