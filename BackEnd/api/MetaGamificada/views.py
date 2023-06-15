@@ -44,16 +44,21 @@ class MetaGamificadaView(APIView):
     def patch(self, request, format=None):
         idUsuarioLogado = request.user.id
         metaCalorias = getMetaCalorias(idUsuario=idUsuarioLogado) ## Obtém meta de calorias diárias do usuário logado
+        hoje = datetime.date.today()
         
         if metaCalorias == -1.0:
             # O usuário não tem uma meta diária cadastrada, retorna erro
             return Response(['erro: usuário não tem uma meta diária cadastrada. Cadastre uma meta diária e tente novamente'], status=status.HTTP_400_BAD_REQUEST)
 
-        ## Obtendo o consumo informado na requisição
+        ## Obtendo o consumo informado na requisição com base nos macronutrientes
         try:
-            consumoInformado = request.data['calorias_consumidas']
+            qtd_carboidratos = request.data['qtd_carboidratos']
+            qtd_proteinas    = request.data['qtd_proteinas']
+            qtd_gorduras     = request.data['qtd_gorduras']
+
+            consumoInformado = 4000*(qtd_carboidratos + qtd_proteinas) + 9000*(qtd_gorduras)
         except KeyError:
-            return Response(['erro: o campo calorias_consumidas deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+            return Response(['erro: os macronutrientes (qtd_carboidratos, qtd_proteinas, qtd_gorduras) devem ser informados na requisição'], status=status.HTTP_400_BAD_REQUEST)
 
         try:
             ## Obtendo a meta gamificada do usuário logado referente ao dia de hoje
@@ -62,8 +67,12 @@ class MetaGamificadaView(APIView):
             # Como usuário logado não possui meta gamificada para o dia de hoje, faz o post da meta com o consumo informado na requisição
             novaMetaGamificada = {}
             novaMetaGamificada['id_usuario'] = idUsuarioLogado
-            novaMetaGamificada['data'] = datetime.date.today()
+            novaMetaGamificada['data'] = hoje
             novaMetaGamificada['calorias_consumidas'] = consumoInformado
+            novaMetaGamificada['qtd_carboidratos'] = qtd_carboidratos
+            novaMetaGamificada['qtd_proteinas'] = qtd_proteinas
+            novaMetaGamificada['qtd_gorduras'] = qtd_gorduras
+
             if consumoInformado > metaCalorias:
                 novaMetaGamificada['meta_cumprida'] = False
             else:
@@ -76,13 +85,21 @@ class MetaGamificadaView(APIView):
 
             return Response(['erro: não foi possível cadastrar a meta gamificada para o dia de hoje'], status=status.HTTP_400_BAD_REQUEST)
     
+        ## Atualizando MetaGamificada com o novo consumo e novo status meta_cumprida
+        novaMetaGamificada = request.data.copy()
+        novaMetaGamificada['id_usuario'] = idUsuarioLogado # Garantindo que meta gamificada continua vinculada ao usuário logado
+        novaMetaGamificada['data'] = hoje # Garantindo que data continua sendo a atual
+
         ## Obtendo o consumo já realizado no dia pelo usuário logado
         consumoAntigo = metaGamificada.calorias_consumidas
         ## Adicionando o consumo informado via requisição ao consumo que já está registrado no banco (consumoAntigo)
-        novoConsumo = max(0, consumoAntigo + consumoInformado) ## Novo consumo não pode ser negativo
-        ## Atualizando MetaGamificada com o novo consumo e novo status meta_cumprida
-        novaMetaGamificada = request.data.copy()
+        novoConsumo = max(0, consumoAntigo + consumoInformado) ## Novo consumo não pode ser negativo        
+        
         novaMetaGamificada['calorias_consumidas'] = novoConsumo
+        # Setando os novos valores dos macronutrientes com base na meta gamificada "antiga" e no que foi informado na requisição
+        novaMetaGamificada['qtd_carboidratos'] = metaGamificada.qtd_carboidratos  + qtd_carboidratos
+        novaMetaGamificada['qtd_proteinas'] = metaGamificada.qtd_proteinas + qtd_proteinas
+        novaMetaGamificada['qtd_gorduras'] = metaGamificada.qtd_gorduras + qtd_gorduras
         
         # Verificando o status da meta diária (se continua ou não dentro da meta diária) após atualização do consumo
         if novoConsumo > metaCalorias:
