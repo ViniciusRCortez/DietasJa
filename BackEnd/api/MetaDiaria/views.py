@@ -24,6 +24,9 @@ class MetaDiariaView(APIView):
         idUsuarioLogado = request.user.id
         dadosMeta = request.data
         dadosMeta["id_usuario"] = idUsuarioLogado # Garantindo que usuário só fará post da própria meta
+        # Garantindo que as sequências de dias dentro da meta iniciam zeradas
+        dadosMeta['seq_dias_anterior'] = 0
+        dadosMeta['seq_dias_atual'] = 0
         serializer = MetaDiariaSerializer(data=dadosMeta, many=False)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -36,10 +39,14 @@ class MetaDiariaView(APIView):
         try:
             metaAntiga = MetaDiaria.objects.get(id_usuario=idUsuarioLogado)
         except MetaDiaria.DoesNotExist:
-            return Response(['erro: usuário não tem uma meta diária definida para atualizar'], status=status.HTTP_400_BAD_REQUEST)    
+            return Response(['erro: usuário não tem uma meta diária definida para atualizar'], status=status.HTTP_400_BAD_REQUEST)
 
         dadosMeta = request.data
         dadosMeta["id_usuario"] = idUsuarioLogado # Garante que meta atualizada continua vinculada ao usuário logado
+        # Garantindo que as sequências de dias dentro da meta não serão alteradas (são de gestão interna)
+        dadosMeta['seq_dias_anterior'] = metaAntiga.seq_dias_anterior
+        dadosMeta['seq_dias_atual'] = metaAntiga.seq_dias_atual
+
         serializer = MetaDiariaSerializer(metaAntiga, data=dadosMeta, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -53,3 +60,38 @@ def getMetaCalorias(idUsuario):
     except MetaDiaria.DoesNotExist:
         return -1.0 # Usuário não tem uma meta diária cadastrada
     return meta.qtd_calorias
+
+# Função que seta a quantidade de dias da sequência atual ou da última (dependendo da chave do dicionário passada)
+def setSeqDias(idUsuario, qtdDias):
+    try:
+        meta = MetaDiaria.objects.get(id_usuario=idUsuario)
+    except MetaDiaria.DoesNotExist:
+        return -1.0 # Usuário não tem uma meta diária cadastrada
+    serializer = MetaDiariaSerializer(meta, data=qtdDias, partial=True)
+    
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return 0
+    else:
+        return -2.0 # Falha ao atualizar a meta diária
+
+def setSeqDiasAtual(idUsuario, qtdDias):
+    return setSeqDias(idUsuario=idUsuario, qtdDias={'seq_dias_atual': qtdDias})
+
+def setSeqDiasAnterior(idUsuario, qtdDias):
+    return setSeqDias(idUsuario=idUsuario, qtdDias={'seq_dias_anterior': qtdDias})
+
+def getSeqDias(idUsuario, tipoSequencia):
+    try:
+        meta = MetaDiaria.objects.get(id_usuario=idUsuario)
+    except MetaDiaria.DoesNotExist:
+        return -1.0 # Usuário não tem uma meta diária cadastrada
+    if tipoSequencia == 'atual':
+        return meta.seq_dias_atual
+    return meta.seq_dias_anterior
+
+def getSeqDiasAtual(idUsuario):
+    return getSeqDias(idUsuario=idUsuario, tipoSequencia='atual')
+
+def getSeqDiasAnterior(idUsuario):
+    return getSeqDias(idUsuario=idUsuario, tipoSequencia='anterior')

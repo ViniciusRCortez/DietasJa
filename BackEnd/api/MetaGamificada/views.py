@@ -9,7 +9,7 @@ from datetime import timedelta
 
 from rest_framework.views import APIView
 
-from MetaDiaria.views import getMetaCalorias
+from MetaDiaria.views import getMetaCalorias, setSeqDiasAtual, setSeqDiasAnterior, getSeqDiasAtual, getSeqDiasAnterior
 
 @permission_classes([IsAuthenticated])
 class MetaGamificadaView(APIView):
@@ -73,10 +73,18 @@ class MetaGamificadaView(APIView):
             novaMetaGamificada['qtd_proteinas'] = qtd_proteinas
             novaMetaGamificada['qtd_gorduras'] = qtd_gorduras
 
+            ## Tornando o contador de seqência anterior igual ao contador da sequência atual
+            setSeqDiasAnterior(idUsuario=idUsuarioLogado, qtdDias=getSeqDiasAtual(idUsuario=idUsuarioLogado))
+
             if consumoInformado > metaCalorias:
                 novaMetaGamificada['meta_cumprida'] = False
+                ## Zera a sequência atual
+                setSeqDiasAtual(idUsuario=idUsuarioLogado, qtdDias=0)
             else:
                 novaMetaGamificada['meta_cumprida'] = True
+                ## Incrementa as sequências atual e última
+                setSeqDiasAnterior(idUsuario=idUsuarioLogado, qtdDias=getSeqDiasAnterior(idUsuario=idUsuarioLogado)+1)
+                setSeqDiasAtual(idUsuario=idUsuarioLogado, qtdDias=getSeqDiasAtual(idUsuario=idUsuarioLogado)+1)
 
             serializer = MetaGamificadaSerializer(data=novaMetaGamificada)
             if serializer.is_valid(raise_exception=True):
@@ -97,9 +105,9 @@ class MetaGamificadaView(APIView):
         
         novaMetaGamificada['calorias_consumidas'] = novoConsumo
         # Setando os novos valores dos macronutrientes com base na meta gamificada "antiga" e no que foi informado na requisição
-        novaMetaGamificada['qtd_carboidratos'] = metaGamificada.qtd_carboidratos  + qtd_carboidratos
-        novaMetaGamificada['qtd_proteinas'] = metaGamificada.qtd_proteinas + qtd_proteinas
-        novaMetaGamificada['qtd_gorduras'] = metaGamificada.qtd_gorduras + qtd_gorduras
+        novaMetaGamificada['qtd_carboidratos'] = max(0, metaGamificada.qtd_carboidratos  + qtd_carboidratos)
+        novaMetaGamificada['qtd_proteinas'] = max(0, metaGamificada.qtd_proteinas + qtd_proteinas)
+        novaMetaGamificada['qtd_gorduras'] = max(0, metaGamificada.qtd_gorduras + qtd_gorduras)
         
         # Verificando o status da meta diária (se continua ou não dentro da meta diária) após atualização do consumo
         if novoConsumo > metaCalorias:
@@ -107,6 +115,19 @@ class MetaGamificadaView(APIView):
         else:
             novaMetaGamificada['meta_cumprida'] = True
         
+        # Verificando se status da meta gamificada foi alterado e que tipo de alteração sofreu
+        if metaGamificada.meta_cumprida and not novaMetaGamificada['meta_cumprida']:
+            # Mudança de True para False: decrementa sequência anterior e zera a sequência atual
+            setSeqDiasAnterior(idUsuario=idUsuarioLogado, qtdDias=getSeqDiasAnterior(idUsuario=idUsuarioLogado)-1)
+            setSeqDiasAtual(idUsuario=idUsuarioLogado, qtdDias = 0)
+        elif not metaGamificada.meta_cumprida and novaMetaGamificada['meta_cumprida']:
+            ''' Mudança de False para True: valor mais atualizado é o da sequência anterior.
+                sequência atual  = sequência anterior + 1
+                sequência anterior = sequência atual
+            '''
+            setSeqDiasAtual(idUsuario=idUsuarioLogado, qtdDias = getSeqDiasAnterior(idUsuario=idUsuarioLogado)+1)
+            setSeqDiasAnterior(idUsuario=idUsuarioLogado, qtdDias = getSeqDiasAtual(idUsuario=idUsuarioLogado))
+
         # Atualizando a tupla da tabela MetaGamificada para constar o consumo atualizado
         serializer = MetaGamificadaSerializer(metaGamificada, novaMetaGamificada, partial=True)
         if serializer.is_valid(raise_exception=True):

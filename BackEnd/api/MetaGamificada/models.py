@@ -12,4 +12,4 @@ class MetaGamificada(models.Model):
     meta_cumprida = models.BooleanField(default=True)
 
     def __str__ (self):
-        return str(self.data)
+        return str(self.data) + ': ' + str(self.meta_cumprida)
