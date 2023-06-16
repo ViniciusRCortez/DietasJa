@@ -31,7 +31,7 @@ class MetaGamificadaView(APIView):
         # Se periodo == semana, busca e retorna o consumo do usuário logado nos últimos sete dias
         dataInicio = hoje - timedelta(days=6) # Definindo data de início como 6 dias atrás (6 dias atrás pois hoje tá incluído)
 
-        metas = (MetaGamificada.objects.filter(id_usuario=idUsuarioLogado)).filter(data__range = [dataInicio, hoje])  ## Filtrando as metas do usuário logado referentes aos últimos setes dias
+        metas = (MetaGamificada.objects.filter(id_usuario=idUsuarioLogado)).filter(data__range = [dataInicio, hoje])  ## Filtrando as metas do usuário logado referentes aos últimos sete dias
 
         if not metas:
             return Response(['usuário não possui nenhuma meta gamificada cadastrada nos últimos sete dias'], status=status.HTTP_204_NO_CONTENT)
@@ -48,6 +48,9 @@ class MetaGamificadaView(APIView):
         if metaCalorias == -1.0:
             # O usuário não tem uma meta diária cadastrada, retorna erro
             return Response(['erro: usuário não tem uma meta diária cadastrada. Cadastre uma meta diária e tente novamente'], status=status.HTTP_400_BAD_REQUEST)
+
+        ## Adicionando a margem de erro de 2% à meta de calorias do usuário logado
+        metaCalorias += 0.02 * metaCalorias
 
         ## Obtendo o consumo informado na requisição com base nos macronutrientes
         try:
