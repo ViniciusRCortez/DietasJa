@@ -29,10 +29,9 @@ class MetaGamificadaView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
     
         # Se periodo == semana, busca e retorna o consumo do usuário logado nos últimos sete dias
-        dataInicio = hoje - timedelta(days=7) # Definindo data de início como 7 dias atrás
-        dataFim = hoje - timedelta(days=1) # Definindo data de fim como sendo um dias antes do dia atual
+        dataInicio = hoje - timedelta(days=6) # Definindo data de início como 6 dias atrás (6 dias atrás pois hoje tá incluído)
 
-        metas = (MetaGamificada.objects.filter(id_usuario=idUsuarioLogado)).filter(data__range = [dataInicio, dataFim])  ## Filtrando as metas do usuário logado referentes aos últimos setes dias
+        metas = (MetaGamificada.objects.filter(id_usuario=idUsuarioLogado)).filter(data__range = [dataInicio, hoje])  ## Filtrando as metas do usuário logado referentes aos últimos setes dias
 
         if not metas:
             return Response(['usuário não possui nenhuma meta gamificada cadastrada nos últimos sete dias'], status=status.HTTP_204_NO_CONTENT)
