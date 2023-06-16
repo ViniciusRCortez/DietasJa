@@ -1,28 +1,127 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerRoutes(){
-    return(
-        <Drawer.Navigator screenOptions={{title : ''}}>
-            <Drawer.Screen
-            name = "home"
-            component = {TabRoutes}
-            options = {{drawerIcon: ({color, size}) => <MaterialCommunityIcons name="home" color ={color} size = {size}/>, drawerLabel : "Ínicio"}}>
-            
-            </Drawer.Screen>
+const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
+  const openDrawer = () => {
+    navigation.openDrawer();
+  };
 
-            <Drawer.Screen
-            name = "profile"
-            component = {StackRoutes}
-            options = {{drawerIcon: ({color, size}) => <Feather name="user" color ={color} size = {size}/>, drawerLabel : "Editar Perfil"}}>
-            
-            </Drawer.Screen>
-        </Drawer.Navigator>
-    )
+  const ChamarSaida = async () => {
+    try {
+      // Lógica para realizar o logout com a conexão com o backend
+      // Por exemplo, enviar uma solicitação para invalidar o token de autenticação no servidor
+      
+      // Aguarde a resposta do backend
+
+      // Se a resposta for bem-sucedida, chame a função handleLogOut para atualizar o estado de login
+      handleLogOut();
+      console.log("Saiu!");
+    } catch (error) {
+      console.log(error);
+      // Lidar com erros de logout aqui
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={openDrawer}>
+        <Feather name="menu" size={30} color="black" />
+      </TouchableOpacity>
+      <View style={styles.textContainer}>
+      <Image
+          source={require('../assets/logomenor.png')}
+          style={styles.imagemestilo}
+        />
+      <Text style = {styles.textoestilo}>DietasJá</Text>
+      </View>
+      <View style = {styles.saidaContainer}>
+        <TouchableOpacity onPress={ChamarSaida}>
+            <SimpleLineIcons name="logout" size={28} color="black" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+export default function DrawerRoutes({ handleLogOut }) {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerShown: true,
+        header: ({ navigation }) => <CustomDrawerHeader navigation={navigation} handleLogOut={handleLogOut} />,
+      }}
+    >
+     <Drawer.Screen
+        name="home"
+        component={TabRoutes}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+          drawerLabel: "Ínicio",
+        }}
+     ></Drawer.Screen>
+
+      <Drawer.Screen
+        name="profile"
+        component={StackRoutes}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Feather name="user" color={color} size={size} />
+          ),
+          drawerLabel: "Minha Conta"
+        }}
+      ></Drawer.Screen>
+
+     <Drawer.Screen
+        name="segunda"
+        component={StackRoutes}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Feather name="target" color={color} size={size} />
+          ),
+          drawerLabel: "Editar Metas"
+        }}
+      ></Drawer.Screen>
+    </Drawer.Navigator>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    paddingTop:40,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  saidaContainer:{
+    paddingLeft: 135,
+  },
+  textoestilo:{
+    fontSize: 32,
+    color: "green",
+    left: 54,
+    fontWeight: 'bold',
+  },
+  imagemestilo:{
+    width: 50,
+    height: 40,
+    left: 49,
+    bottom: 4,
+  },
+});

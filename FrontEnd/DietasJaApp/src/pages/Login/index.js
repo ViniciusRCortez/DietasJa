@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import {Text, TextInput, View, TouchableOpacity} from "react-native";
 import styles from "./styles"
+import { useNavigation } from '@react-navigation/native';
+import Title from "../../components/Title"
 
-export default function Login() {
+export default function Login({ handleLogin }) {
 
+const navigation = useNavigation();
 const [email, setEmail] = React.useState('');
 const [senha, setSenha] = useState('');
 const [mensagem, setMensagem] = useState("Informe Email e Senha!");
@@ -16,6 +19,8 @@ function validationEntrar(){
         setSenha("");
         setEmail("");
         setErroLogin("");
+        handleLogin();
+        console.log("Entrou");
         return;
     }
     setErroLogin("Email e/ou senha inválidos");
@@ -29,7 +34,8 @@ function validateLogin(email, senha) {
   }
 
     return(
-
+        <View>
+        <Title></Title>
         <View style = {styles.CaixaTotal}>
             <View style = {styles.form}>
                 <TextInput 
@@ -66,5 +72,6 @@ function validateLogin(email, senha) {
 
             </View>
         </View>
+    </View>
     );
 }

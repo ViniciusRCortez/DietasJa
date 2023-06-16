@@ -6,6 +6,7 @@ import EditarLogin from "./pages/EditarLogin"
 import EditarPerfil from "./pages/EditarPerfil"
 import Routes from "./routes"
 import 'react-native-gesture-handler';
+import TelaInicial from "./pages/TelaInicial";
 
 export default function App() {
     return(

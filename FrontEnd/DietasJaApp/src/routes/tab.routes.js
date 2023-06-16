@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {Feather} from "@expo/vector-icons";
+import { SimpleLineIcons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import TelaInicial from "../pages/TelaInicial";
 import InformConsumo from "../pages/InformConsumo";
 import Historico from "../pages/HistoricoConsumo";
-import VisualizarInd from "../pages/VisualizarInd";
+import Visualizar from "../pages/VisualizarInd";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +19,7 @@ export default function TabRoutes(){
             </Tab.Screen>
             
             <Tab.Screen
-                name = "Informe Consumo"
+                name = "Informar Consumo"
                 component = {InformConsumo}
                 options = {{tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="food-variant" color ={color} size = {size}/>}}>
             </Tab.Screen>
@@ -32,9 +32,10 @@ export default function TabRoutes(){
 
             <Tab.Screen
                 name = "Consultar Índices"
-                component = {VisualizarInd}
+                component = {Visualizar}
                 options = {{tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="table-search" color ={color} size = {size}/>}}>
             </Tab.Screen>
+
         </Tab.Navigator>
     )
 }

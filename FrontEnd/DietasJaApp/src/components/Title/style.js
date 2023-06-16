@@ -6,7 +6,7 @@ const styles = StyleSheet.create(
             alignItems: "center",
             justifyContent: "center",
             padding: 0,
-            marginTop: 90,
+            marginTop: 110,
         },
         estiloTitle:{
             color: "#329C20",
@@ -14,6 +14,10 @@ const styles = StyleSheet.create(
             fontWeight: "bold",
 
         },
+        imagemestilo:{
+            width:215,
+            height: 180,
+        }
     }
 )
 export default styles
