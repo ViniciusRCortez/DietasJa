@@ -52,5 +52,7 @@ urlpatterns = [
     path('api/delete-user/', DeleteUserByUsernameView, name='delete-user-by-username'),
     path('api/delete-user-id/<int:user_id>', DeleteUserByIdView, name='delete-another-user-by-id'),
     path('api/alimentos/', AlimentosView.as_view(), name="alimentos"),
-    path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes")
+    path('api/alimentos/<int:idAlimento>', AlimentosView.as_view(), name="atualizar-deletar-alimento-pelo-id"),
+    path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes"),
+    path('api/alimentos-padroes/<int:idAlimento>', AlimentosPadroesView.as_view(), name="atualizar-deletar-alimentos-padroes")
 ]

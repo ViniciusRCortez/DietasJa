@@ -24,7 +24,7 @@ class AlimentosView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)  # Retorna a resposta 204 - "No Content"
         
         serializer = AlimentoSerializer(alimentos, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     # Função que insere um alimento da comunidade
     def post(self, request, format=None):
@@ -40,6 +40,51 @@ class AlimentosView(APIView):
             serializer.save() # Salva o alimento no banco e retorna status de sucesso (criado)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # Retorna erro
+    
+    # Função que faz um update em um alimento da comunidade com base no seu id
+    def patch(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        # Busca alimento pelo id especificado pelo usuário
+        try:
+            alimentoAtualizar = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            # Se alimento com idBuscado não for encontrado, retorna erro 204 (Not Content)
+            return Response({'erro: alimento buscado não foi encontrado'}, status=status.HTTP_204_NO_CONTENT)
+
+        # Verificando a permissão (usuário cliente só pode atualizar alimentos da comunidade)
+        if (alimentoAtualizar.e_padrao):
+            return Response({'erro: usuário não tem permissão para atualizar alimento padrão'}, status=status.HTTP_401_UNAUTHORIZED) # Usuário sem permissão para atualizar alimento buscado
+
+        # Atualizando alimento com base nos dados recebidos da requisição PATCH
+        dadosAlimento = request.data
+        dadosAlimento["e_padrao"] = False # Setando (ou adicionando, caso campo não exista) elemento e_padrao = False ao dicionário que representa o alimento (Garante que alimento continua da comunidade após atualização)
+        serializer = AlimentoSerializer(alimentoAtualizar, data=dadosAlimento, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
+        # Busca alimento pelo id
+        try:
+            alimentoExcluir = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            return Response({'erro: alimento a excluir não está cadastrado'}, status=status.HTTP_204_NO_CONTENT)
+        
+        # Verificando permissão (usuário cliente só pode excluir alimentos da comunidade)
+        if (alimentoExcluir.e_padrao):
+            return Response({'erro: usuário não tem permissão para excluir alimento padrão'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Excluindo alimento
+        alimentoExcluir.delete()
+        return Response({'sucesso: alimento foi excluído'}, status=status.HTTP_200_OK)
 
 @permission_classes([IsAdminUser])
 class AlimentosPadroesView(APIView):
@@ -57,3 +102,39 @@ class AlimentosPadroesView(APIView):
             serializer.save() # Salva o alimento no banco e retorna status de sucesso (criado)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # Retorna erro
+    
+    # Função que faz um update em um alimento da comunidade ou padrão com base no seu id
+    def patch(self, request, idAlimento=None, format=None):
+        # Verificando se conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
+        # Busca alimento pelo id especificado pelo usuário
+        try:
+            alimentoAtualizar = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            # Se alimento com idBuscado não for encontrado, retorna erro 204 (Not Content)
+            return Response({'erro: alimento buscado não foi encontrado'}, status=status.HTTP_204_NO_CONTENT)
+
+        # Atualizando alimento com base nos dados recebidos da requisição PATCH
+        # Admin pode alterar categoria do alimento, por isso nenhuma verificação/imposição relacionada a isso precisa ser feita
+        serializer = AlimentoSerializer(alimentoAtualizar, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, idAlimento=None, format=None):
+        # Verificando se o conversor de caminho foi informado na requisição
+        if idAlimento == None:
+            return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
+        
+        # Busca alimento pelo id
+        try:
+            alimentoExcluir = Alimento.objects.get(id=idAlimento)
+        except Alimento.DoesNotExist:
+            return Response({'erro: alimento a excluir não está cadastrado'}, status=status.HTTP_204_NO_CONTENT)
+                
+        # Excluindo alimento
+        alimentoExcluir.delete()
+        return Response({'sucesso: alimento foi excluído'}, status=status.HTTP_200_OK)
