@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from Users.views import *
 from Alimentos.views import *
+from MetaDiaria.views import *
+from MetaGamificada.views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from rest_framework import permissions
@@ -54,5 +56,8 @@ urlpatterns = [
     path('api/alimentos/', AlimentosView.as_view(), name="alimentos"),
     path('api/alimentos/<int:idAlimento>', AlimentosView.as_view(), name="atualizar-deletar-alimento-pelo-id"),
     path('api/alimentos-padroes/', AlimentosPadroesView.as_view(), name="alimentos-padroes"),
-    path('api/alimentos-padroes/<int:idAlimento>', AlimentosPadroesView.as_view(), name="atualizar-deletar-alimentos-padroes")
+    path('api/alimentos-padroes/<int:idAlimento>', AlimentosPadroesView.as_view(), name="atualizar-deletar-alimentos-padroes"),
+    path('api/meta/', MetaDiariaView.as_view(), name="meta"),
+    path('api/meta-gamificada/', MetaGamificadaView.as_view(), name="meta-gamificada"),
+    path('api/meta-gamificada/<str:periodo>', MetaGamificadaView.as_view(), name="meta-gamificada")
 ]
