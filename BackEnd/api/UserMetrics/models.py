@@ -21,9 +21,9 @@ class UserMetric(models.Model):
 
     def calcular_tmb(self):
         if self.genero == 'M':
-            self.tmb = 66.5 + (13.75 * self.peso) + (5.003 * self.altura) - (6.755 * self.idade)
+            self.tmb = 66.5 + (13.75 * self.peso) + (5.003 * self.altura * 100) - (6.755 * self.idade)
         elif self.genero == 'F':
-            self.tmb = 655.1 + (9.563 * self.peso) + (1.850 * self.altura) - (4.676 * self.idade)
+            self.tmb = 655.1 + (9.563 * self.peso) + (1.850 * self.altura * 100) - (4.676 * self.idade)
         else:
             # Caso o gênero não seja válido, atribuir um valor padrão para TMB
             # O TMB medio de um adulto é entre 1200-2400 cal
