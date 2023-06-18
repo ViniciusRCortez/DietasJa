@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
 from Users.views import *
 from Alimentos.views import *
+from UserMetrics.views import*
 from MetaDiaria.views import *
 from MetaGamificada.views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
@@ -59,5 +61,8 @@ urlpatterns = [
     path('api/alimentos-padroes/<int:idAlimento>', AlimentosPadroesView.as_view(), name="atualizar-deletar-alimentos-padroes"),
     path('api/meta/', MetaDiariaView.as_view(), name="meta"),
     path('api/meta-gamificada/', MetaGamificadaView.as_view(), name="meta-gamificada"),
-    path('api/meta-gamificada/<str:periodo>', MetaGamificadaView.as_view(), name="meta-gamificada")
+    path('api/meta-gamificada/<str:periodo>', MetaGamificadaView.as_view(), name="meta-gamificada"),
+    path('api/user-metrics/', UserMetricView.as_view(), name="user-metrics"),
+    path('api/new-user-metrics/', NewUserMetricView.as_view(), name="post-user-metrics"),
+    path('api/protected-user-metrics/', ProtectedUserMetricView.as_view(), name="admin-user-metrics"),
 ]
