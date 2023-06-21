@@ -1,14 +1,17 @@
 import React, {useState} from "react";
 import {View, Text, Image, TouchableOpacity, TextInput} from "react-native";
-import styles from "./style"
+import styles from "./style";
+import { useNavigation } from '@react-navigation/native';
 
 export default function EditarLogin(){
 
-const [email, setEmail] = React.useState('');
-const [senha, setSenha] = useState('');
-const [novasenha, setNSenha] = useState('');
-const [validarsenha, setValiSenha] = useState('');
-const [Erromsg, SetErromsg] = useState('');
+    const navigation = useNavigation();
+
+    const [email, setEmail] = React.useState('');
+    const [senha, setSenha] = useState('');
+    const [novasenha, setNSenha] = useState('');
+    const [validarsenha, setValiSenha] = useState('');
+    const [Erromsg, SetErromsg] = useState('');
 
 function ValidationSenha(){
     if (ValidationInformacao(email,senha,novasenha,validarsenha)){
@@ -76,8 +79,7 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
 
             <TouchableOpacity
                 style = {styles.estilobotaoSalvar}
-                onPress = {() => {
-                    ValidationSenha()}}
+                onPress={() => navigation.navigate('PrimeiroAcesso')}
                 >
                 <Text style = {styles.textoBotao}>Salvar Alterações</Text>
                 </TouchableOpacity>

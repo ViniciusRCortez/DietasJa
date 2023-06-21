@@ -5,8 +5,8 @@ import styles from "./style"
 export default function Title(){
     return (
         <View style = {styles.caixaTitle}>
-            <Image source = {require("../../assets/logo.png")}
-            ></Image>
+            <Image source = {require("../../assets/outralogo.png")}
+             style = {styles.imagemestilo}></Image>
             <Text style = {styles.estiloTitle}>Dietas Já!</Text>
         </View>
 

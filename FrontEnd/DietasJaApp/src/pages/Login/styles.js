@@ -2,26 +2,37 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create(
     {
+        containerheader:{
+            marginTop:"20%",
+            marginBottom:"9%",
+            paddingStart: "6%",
+        },
+        message:{
+            fontSize: 28,
+            fontWeight: "bold",
+            color: "#fff"
+        },
+        CaixaTotalmente:{
+            flex:1,
+            backgroundColor:"#38a69d",
+        },
         CaixaTotal:{
-            width:"100%",
-            height:"auto",
-            bottom:0,
-            backgroundColor: "#ffffff",
-            alignItems: "center",
-            marginTop:0,
-            borderTopLeftRadius:30,
-            borderTopRightRadius:30,
+            flex:1,
+            backgroundColor:"#fff",
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+            paddingStart: "6%",
+            paddingEnd: "6%",
+        },
+        title:{
+            fontSize: 20,
+            marginTop:28,
         },
         estiloinput:{
-            width: "100%",
-            borderRadius: 50,
-            height: 55,
-            marginBottom:10,
-            marginTop: 10,
-            paddingLeft:10,
-            backgroundColor: "#f6f6f6",
-            alignItems: "center",
-
+            borderBottomWidth: 1,
+            height: 40,
+            marginBottom:12,
+            fontSize: 16,
         },
         form:{
             width:"100%",
@@ -30,35 +41,29 @@ const styles = StyleSheet.create(
             padding:10, 
         },
         estilobotaoLogin:{
-            borderRadius:50,
+            borderRadius:4,
             alignItems: "center",
             justifyContent: "center",
-            width: "90%",
-            backgroundColor:"#207E9C",
-            paddingTop: 14,
-            paddingBottom: 14,
-            marginLeft: "auto",
-            marginRight:"auto",
-            marginTop: 30,
+            width: "100%",
+            backgroundColor:"#38a69d",
+            paddingVertical: 8,
+            marginTop: 25,
             },
 
         estilobotaoCadastro:{
-            borderRadius: 50,
             alignItems: "center",
             justifyContent: "center",
-            width: "50%",
-            backgroundColor:"#329C20",
-            paddingTop: 10,
-            paddingBottom: 10,
-            marginLeft: "auto",
-            marginRight:"auto",
-            marginTop: 30,
-                },
+            marginTop: 20,
+            },
 
         textoBotao:{
-            fontSize: 20,
+            fontSize: 18,
             color:"#ffffff",
-
+            fontWeight: "bold"
+        },
+        textoBotaoCadastro:{
+            color:"#a1a1a1",
+            fontSize: 15,
         },
         estiloErro:{
             paddingLeft: "auto",

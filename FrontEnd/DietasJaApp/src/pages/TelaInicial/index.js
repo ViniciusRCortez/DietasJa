@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import { View, Text,  } from 'react-native';
 import styles from "./styles"
+import * as Animatable from 'react-native-animatable';
 
 export default function TelaInicial() {
 
@@ -16,19 +17,19 @@ export default function TelaInicial() {
     <View style={styles.container}>
       <Text style={styles.greetingText}>Olá, {nome}</Text>
 
-      <View style={styles.rectangle}>
+      <Animatable.View animation= "fadeInLeft" delay={500} style={styles.rectangle}>
         <Text style={styles.infoTitle}>Meta de Calorias Diárias</Text>
         <View style={styles.separator} />
         <Text style={styles.infoValue}>{meta} cal</Text>
-      </View>
+      </Animatable.View>
 
-      <View style={styles.redrectangle}>
+      <Animatable.View animation= "fadeInLeft" delay={600} style={styles.redrectangle}>
         <Text style={styles.infoTitle}>Calorias Consumidas</Text>
         <View style={styles.separator} />
         <Text style={styles.infoValue}>{consumo} cal</Text>
-      </View>
+      </Animatable.View>
 
-      <View style={styles.macronutrientsRectangle}>
+      <Animatable.View animation= "fadeInLeft" delay={700} style={styles.macronutrientsRectangle}>
         <View />
             <View style={styles.macronutrientContainer}>
             <Text style={styles.macronutrientTitle}>Carboidratos</Text>
@@ -44,7 +45,7 @@ export default function TelaInicial() {
           <Text style={styles.macronutrientTitle}>Gorduras </Text>
           <Text style={styles.macronutrientValue}>{gordura}g</Text>
         </View>
-        </View>
+        </Animatable.View>
         <View style={styles.remainingCaloriesContainer}>
         <Text style={styles.remainingCaloriesText}>
           Faltam {resto} calorias para consumir hoje

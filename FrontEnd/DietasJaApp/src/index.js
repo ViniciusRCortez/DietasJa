@@ -5,13 +5,15 @@ import Login from "./pages/Login"
 import EditarLogin from "./pages/EditarLogin"
 import EditarPerfil from "./pages/EditarPerfil"
 import Routes from "./routes"
+import PrimeiroAcesso from "./pages/PrimeiroAcesso";
 import 'react-native-gesture-handler';
 import TelaInicial from "./pages/TelaInicial";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
     return(
         <View style={styles.container}>
-            <Routes></Routes>
+             <Routes></Routes>
         </View>
     );
 }

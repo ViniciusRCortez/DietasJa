@@ -2,12 +2,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
-import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Image, Dimensions} from 'react-native';
 
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
 
 const Drawer = createDrawerNavigator();
+
+const Nwidth = Dimensions.get('window').width;
 
 const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   const openDrawer = () => {
@@ -37,7 +39,7 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
       </TouchableOpacity>
       <View style={styles.textContainer}>
       <Image
-          source={require('../assets/logomenor.png')}
+          source={require('../assets/outralogo.png')}
           style={styles.imagemestilo}
         />
       <Text style = {styles.textoestilo}>DietasJá</Text>
@@ -95,6 +97,7 @@ export default function DrawerRoutes({ handleLogOut }) {
   );
 }
 
+// Estilo do Cabeçalho das telas
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -110,18 +113,17 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   saidaContainer:{
-    paddingLeft: 135,
+    paddingLeft: 105,
   },
   textoestilo:{
     fontSize: 32,
-    color: "green",
-    left: 54,
+    color: "#38a69d",
+    left: 36,
     fontWeight: 'bold',
   },
   imagemestilo:{
-    width: 50,
-    height: 40,
-    left: 49,
-    bottom: 4,
+    width: 80,
+    height: 50,
+    left: 45,
   },
 });

@@ -15,8 +15,8 @@ const styles = StyleSheet.create(
 
         },
         imagemestilo:{
-            width:215,
-            height: 180,
+            width:350,
+            height: 190,
         }
     }
 )
