@@ -14,6 +14,7 @@ const [mensagem, setMensagem] = useState("Informe Email e Senha!");
 const [textButton, setTextButton] = useState("Login");
 const [erroLogin, setErroLogin] = useState('');
 
+// Funcao que valida entrada depois de receber a confirmacao para o Login
 function validationEntrar(){
     if (validateLogin(email,senha)){
         setMensagem("Login Válido!");
@@ -27,6 +28,7 @@ function validationEntrar(){
     setErroLogin("Email e/ou senha inválidos");
 }
 
+// Funcao para validar entrada, nesse caso está apenas verificando se está vazio
 function validateLogin(email, senha) {
     if (email.trim() === '' || senha.trim() === '') {
       return false; // Login inválido se o email ou senha estiverem vazios

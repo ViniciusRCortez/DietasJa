@@ -76,6 +76,71 @@ const styles = StyleSheet.create(
       color: '#fff',
       opacity: 0.8,
     },
+    button: {
+      backgroundColor: '#0198AE',
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 50,
+      marginBottom: 20,
+      alignSelf: 'center',
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },    
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      backgroundColor: '#fff',
+      padding: 20,
+      borderRadius: 8,
+    },
+    message: {
+      fontSize: 19,
+      marginBottom: 20,
+      padding: 10,
+      fontWeight: 'bold',
+      backgroundColor: '#F17163',
+      textAlign: 'center',
+      borderRadius: 10,
+      // Estilizações adicionais
+      textShadowColor: 'rgba(0, 0, 0, 0.5)',
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 2,
+    },
+    message2: {
+      fontSize: 19,
+      fontWeight: 'bold',
+      marginBottom: 60,
+      padding: 10,
+      backgroundColor: '#F2955E',
+      textAlign: 'center',
+      borderRadius: 10,
+      // Estilizações adicionais
+      elevation: 2,
+      shadowColor: 'rgba(0, 0, 0, 0.3)',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 4,
+    },
+    message3: {
+      fontSize: 21,
+      marginBottom: 40,
+      padding: 10,
+      fontWeight: 'bold',
+      backgroundColor: '#01C099',
+      textAlign: 'center',
+      borderRadius: 10,
+      // Estilizações adicionais
+      borderColor: 'black',
+    },
+    
+
 
   });
 export default styles

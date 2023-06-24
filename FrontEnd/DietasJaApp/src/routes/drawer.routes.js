@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
@@ -9,7 +9,7 @@ import StackRoutes from "./stack.routes";
 
 const Drawer = createDrawerNavigator();
 
-const Nwidth = Dimensions.get('window').width;
+const { width, height } = Dimensions.get('window');
 
 const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   const openDrawer = () => {
@@ -54,12 +54,14 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
 };
 
 export default function DrawerRoutes({ handleLogOut }) {
+  
   return (
     <Drawer.Navigator
       screenOptions={{
         headerShown: true,
         header: ({ navigation }) => <CustomDrawerHeader navigation={navigation} handleLogOut={handleLogOut} />,
       }}
+      drawerContent={CustomDrawerContent}
     >
      <Drawer.Screen
         name="home"
@@ -97,33 +99,62 @@ export default function DrawerRoutes({ handleLogOut }) {
   );
 }
 
+function CustomDrawerContent(props) {
+
+  return (
+    <DrawerContentScrollView {...props}>
+       <View style={styles.drawerHeader}>
+        <Text style={styles.drawerHeaderText}>Menu</Text>
+      </View>
+      <DrawerItemList {...props} />
+
+    </DrawerContentScrollView>
+  );
+}
+
 // Estilo do Cabeçalho das telas
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    paddingTop:40,
-  },
-  textContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 8,
-  },
-  saidaContainer:{
-    paddingLeft: 105,
-  },
-  textoestilo:{
-    fontSize: 32,
-    color: "#38a69d",
-    left: 36,
-    fontWeight: 'bold',
-  },
-  imagemestilo:{
-    width: 80,
-    height: 50,
-    left: 45,
-  },
-});
+  
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      paddingHorizontal: width * 0.04,
+      paddingVertical: height * 0.01,
+      paddingTop: height * 0.035,
+      justifyContent: "center",
+    },
+    textContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginLeft: width * 0.02,
+      justifyContent: "center",
+    },
+    saidaContainer: {
+      paddingLeft: width * 0.23,
+    },
+    textoestilo: {
+      fontSize: width * 0.075,
+      color: '#38a69d',
+      left: width * 0.07,
+      fontWeight: 'bold',
+      bottom: width * 0.005,
+    },
+    imagemestilo: {
+      width: width * 0.185,
+      height: height * 0.051,
+      left: width * 0.11,
+      bottom: width * 0.008,
+    },
+    drawerHeader: {
+      backgroundColor: '#fff',
+      paddingVertical: height * 0.03,
+      paddingHorizontal: width * 0.05,
+      justifyContent: 'center',
+    },
+    drawerHeaderText: {
+      fontSize: width * 0.065,
+      fontWeight: 'bold',
+      color: 'black',
+    },
+  });

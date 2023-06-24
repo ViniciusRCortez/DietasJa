@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: height * 0.026, 
     paddingHorizontal: width * 0.2, 
-    marginBottom: height * 0.02, 
+    marginBottom: height * 0.01, 
     borderRadius: width * 0.08, 
     alignItems: "center",
   },
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   messagemtitulo: {
     fontSize: height * 0.025, 
     fontWeight: "bold",
-    marginBottom: height * 0.05, 
+    marginBottom: height * 0.04, 
     textAlign: "center",
   },
   messagembottom: {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   infoContainer: {
-    width: width * 0.93, 
+    width: width * 0.82, 
     backgroundColor: '#38a69d',
     borderRadius: width * 0.04,
     height: height * 0.22, 

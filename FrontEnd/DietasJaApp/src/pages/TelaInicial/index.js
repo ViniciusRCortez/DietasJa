@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 
 export default function TelaInicial() {
 
-  const nome = "Vinícius";
+  const nome = "Marcus";
   const meta = 2510;
   const consumo = 2000;
   const carb = 500;
@@ -15,8 +15,9 @@ export default function TelaInicial() {
 
   return (
     <View style={styles.container}>
+      <View style = {styles.containerTexto}>
       <Text style={styles.greetingText}>Olá, {nome}</Text>
-
+      </View>
       <Animatable.View animation= "fadeInLeft" delay={500} style={styles.rectangle}>
         <Text style={styles.infoTitle}>Meta de Calorias Diárias</Text>
         <View style={styles.separator} />

@@ -44,8 +44,8 @@ export default function Routes() {
             handleLogin();
             }}
             />
-      )}
-    </Stack.Screen>
+            )}
+           </Stack.Screen>
           </>
         )}
       </Stack.Navigator>
