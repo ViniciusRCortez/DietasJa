@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'Users',
     'Alimentos',
     'MetaDiaria',
-    'MetaGamificada'
+    'MetaGamificada',
+    'Refeicao',
+    'Consumo'
 ]
 
 MIDDLEWARE = [
