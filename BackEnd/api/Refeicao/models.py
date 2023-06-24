@@ -15,7 +15,7 @@ class Refeicao(models.Model):
     def atualizar_campos_acumulados(self):
         # Atualiza os campos de informações nutricionais da refeição antes de salvar
         self.calorias_total = self.alimentos_list.aggregate(Sum('qtd_calorias'))['qtd_calorias__sum'] or 0
-        self.porcao = self.refeicoes_list.aggregate(Sum('porcao'))['porcao__sum'] or 0
+        self.porcao = self.alimentos_list.aggregate(Sum('porcao'))['porcao__sum'] or 0
         self.carboidratos_total = self.alimentos_list.aggregate(Sum('qtd_carboidratos'))['qtd_carboidratos__sum'] or 0
         self.gorduras_total = self.alimentos_list.aggregate(Sum('qtd_gorduras'))['qtd_gorduras__sum'] or 0
         self.proteinas_total = self.alimentos_list.aggregate(Sum('qtd_proteinas'))['qtd_proteinas__sum'] or 0
