@@ -22,6 +22,8 @@ from Alimentos.views import *
 from UserMetrics.views import*
 from MetaDiaria.views import *
 from MetaGamificada.views import *
+from Consumo.views import *
+from Refeicao.views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from rest_framework import permissions
@@ -65,4 +67,16 @@ urlpatterns = [
     path('api/user-metrics/', UserMetricView.as_view(), name="user-metrics"),
     path('api/new-user-metrics/', NewUserMetricView.as_view(), name="post-user-metrics"),
     path('api/protected-user-metrics/', ProtectedUserMetricView.as_view(), name="admin-user-metrics"),
+    path('api/refeicoes/', RefeicoesView.as_view(), name='refeicoes-list'),
+    path('api/refeicoes/<int:idRefeicao>/', RefeicoesView.as_view(), name='refeicoes-atualizar-ou-deletar-pelo-id'),
+    path('api/refeicoes/<int:idRefeicao>/inserir-alimento/<int:idAlimento>/', RefeicoesView.as_view(), name='refeicoes-inserir-alimento'),
+    path('api/refeicoes/<int:idRefeicao>/remover-alimento/<int:idAlimento>/', RefeicoesView.as_view(), name='refeicoes-remover-alimento'),
+    path('api/refeicoes-padroes/', RefeicoesPadroesView.as_view(), name='refeicoes-padroes-list'),
+    path('api/refeicoes-padroes/<int:idRefeicao>/', RefeicoesPadroesView.as_view(), name='refeicoes-padroes-atualizar-ou-deletar-pelo-id'),
+    path('api/refeicoes-padroes/<int:idRefeicao>/inserir-alimento/<int:idAlimento>/', RefeicoesPadroesView.as_view(), name='refeicoes-padroes-inserir-alimento'),
+    path('api/refeicoes-padroes/<int:idRefeicao>/remover-alimento/<int:idAlimento>/', RefeicoesPadroesView.as_view(), name='refeicoes-padroes-remover-alimento'),
+    path('api/consumos/', ConsumoView.as_view(), name='consumo-list'),
+    path('api/consumos/<int:idConsumo>/', ConsumoView.as_view(), name='consumo-atualizar-ou-deletar-pelo-id'),
+    path('api/consumos/<int:idConsumo>/refeicoes/<int:idRefeicao>/adicionar/', ConsumoView.as_view(), name='consumo-adicionar-refeicao'),
+    path('api/consumos/<int:idConsumo>/refeicoes/<int:idRefeicao>/remover/', ConsumoView.as_view(), name='consumo-remover-refeicao')
 ]

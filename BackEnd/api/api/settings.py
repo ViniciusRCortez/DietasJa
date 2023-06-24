@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'Alimentos',
     'UserMetrics',
     'MetaDiaria',
-    'MetaGamificada'
+    'MetaGamificada',
+    'Refeicao',
+    'Consumo'
 ]
 
 
