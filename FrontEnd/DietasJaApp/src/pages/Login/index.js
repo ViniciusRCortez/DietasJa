@@ -73,7 +73,7 @@ function validateLogin(email, senha) {
 
                 <TouchableOpacity
                 style = {styles.estilobotaoCadastro}
-                onPress={() => navigation.navigate('EditarLogin')}
+                onPress={() => navigation.navigate('Cadastro')}
                 >
                     <Text style = {styles.textoBotaoCadastro}>Não possui uma conta? Cadastre-se</Text>
                 </TouchableOpacity>

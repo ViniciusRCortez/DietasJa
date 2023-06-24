@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput} from "react-native";
+import {View, Text, Image, TouchableOpacity, TextInput, Alert} from "react-native";
 import styles from "./style";
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,21 +11,20 @@ export default function EditarLogin(){
     const [senha, setSenha] = useState('');
     const [novasenha, setNSenha] = useState('');
     const [validarsenha, setValiSenha] = useState('');
-    const [Erromsg, SetErromsg] = useState('');
 
 function ValidationSenha(){
     if (ValidationInformacao(email,senha,novasenha,validarsenha)){
-        setEmail('');
-        setSenha('');
-        setValiSenha('');
-        setNSenha('');
-        SetErromsg('');
+        Alert.alert("Sucesso", "Informações alteradas com sucesso!")
+        handleVoltar();
         return;
     }
     else{
-        SetErromsg("Informações Inválidas!");
+        Alert.alert("Erro", "Informações Invalídas")
     }
 }
+const handleVoltar = () => {
+    navigation.goBack();
+};
 
 function ValidationInformacao(email,senha,novasenha, validarsenha){
     if (email.trim() === '' || senha.trim() === '' || (novasenha.trim() != validarsenha.trim()) ){
@@ -38,11 +37,11 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
         <View style = {styles.CaixaTotal}>
 
             <View style = {styles.CaixaTitulo}>
-            <Image source = {require("../../assets/logomenor.png")}
+            <Image source = {require("../../assets/outralogo.png")}
                    style = {styles.imagemEstilo}></Image>
             <Text style = {styles.textoTitulo}>Dietas Já!</Text>
             </View>
-
+            <Text style = {styles.textoSub}>Editar Cadastro</Text>
             <View style = {styles.CaixaForm}>
 
             <Text style = {styles.estiloTexto}> Novo Email:</Text>
@@ -79,17 +78,15 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
 
             <TouchableOpacity
                 style = {styles.estilobotaoSalvar}
-                onPress={() => navigation.navigate('PrimeiroAcesso')}
+                onPress={ValidationSenha}
                 >
                 <Text style = {styles.textoBotao}>Salvar Alterações</Text>
                 </TouchableOpacity>
 
-            {Erromsg !== '' && <Text style={styles.mensagemErro}>{Erromsg}</Text>}
-
             <TouchableOpacity
-                style = {styles.estilobotaoVoltar}
+                style = {styles.estilobotaoVoltar} onPress={handleVoltar}
             >
-                <Text style = {styles.textoBotao}>Voltar</Text>
+                <Text style = {styles.textoBotaoVolta}>Voltar</Text>
             </TouchableOpacity>
             </View>
         </View>

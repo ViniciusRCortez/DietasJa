@@ -6,6 +6,9 @@ import Welcome from "../pages/Welcome";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import PrimeiroAcesso from "../pages/PrimeiroAcesso";
 import EditarLogin from "../pages/EditarLogin"
+import EditarPerfil from "../pages/EditarPerfil"
+import StackRoutes from "./stack.routes";
+import Cadastro from "../pages/Cadastro";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +32,8 @@ export default function Routes() {
             <Stack.Screen name="Main">
               {() => <DrawerRoutes handleLogOut={handleLogOut} />}
             </Stack.Screen>
+            <Stack.Screen name="EditarPerfil" component={EditarPerfil} />
+            <Stack.Screen name="EditarLogin" component={EditarLogin} />
           </>
         ) : (
           <>
@@ -36,7 +41,7 @@ export default function Routes() {
             <Stack.Screen name="Login">
               {(props) => <Login {...props} handleLogin={handleLogin} />}
             </Stack.Screen>
-            <Stack.Screen name="EditarLogin" component={EditarLogin} />
+            <Stack.Screen name="Cadastro" component={Cadastro} />
             <Stack.Screen name="PrimeiroAcesso">
             {() => (
             <PrimeiroAcesso
@@ -46,6 +51,7 @@ export default function Routes() {
             />
             )}
            </Stack.Screen>
+
           </>
         )}
       </Stack.Navigator>

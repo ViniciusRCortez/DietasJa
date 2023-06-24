@@ -57,7 +57,7 @@ const items = [
             <Text style = {styles.textoTitulo}>Dietas Já!</Text>
             </View>
 
-            <Text style = {styles.textoSub}>Primeiro Acesso                  </Text>
+            <Text style = {styles.textoSub}>Primeiro Acesso</Text>
 
             <View style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
