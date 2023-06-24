@@ -5,11 +5,7 @@ const styles = StyleSheet.create(
         CaixaTotal:{
             width:"100%",
             height:"auto",
-            bottom:0,
-            backgroundColor: "#ffffff",
-            marginTop:0,
-            borderTopLeftRadius:30,
-            borderTopRightRadius:30,
+            backgroundColor: "#38a69d",
             flex: 1,
         },
 
@@ -23,34 +19,35 @@ const styles = StyleSheet.create(
 
         textoTitulo:{
             fontSize: 37,
-            color: "#329C20",
             marginTop: 0,
             left: 22,
             height: 50,
+            fontWeight: "bold",
 
         },
-
         imagemEstilo:{
-            top: 49,
-            left: -88,
+          width: 90,
+          height: 50,
+          top: 49,
+          right: 89,
         },
-
         textoSub:{
             fontSize: 30,
-            color: "#000000",
+            color: "#fff",
+            fontWeight: "bold",
             marginTop: 15,
             left: 22,
             height: 35,
             textDecorationLine: 'underline',
-
         },
         CaixaForm:{
-            width:"100%",
-            height:"auto", 
+            flex:2, 
             marginTop: 20,
-            padding:15, 
+            padding: 15,
+            backgroundColor: "#fff",
+            borderTopRightRadius: 50,
+            borderTopLeftRadius: 50,
         },
-
         estiloinput:{
             width: "100%",
             borderRadius: 50,
@@ -61,26 +58,22 @@ const styles = StyleSheet.create(
             backgroundColor: "#f6f6f6",
             alignItems: "center",
         },
-
         estiloTexto:{
             fontSize: 21,
             paddingTop: 17,
             
         },
-
         sexoContainer: {
             flexDirection: "row",
             alignItems: "center",
             marginBottom: 15,
           },
-        
           dropDownPickerContainer: {
             flex: 1,
             marginLeft: 10,
             marginRight: 95,
             paddingTop: 10,
           },
-        
           dropDownPicker: {
             borderColor: "#ccc",
             borderRadius: 50,
@@ -104,10 +97,9 @@ const styles = StyleSheet.create(
 
           estiloInputaolado: {
             flex: 1,
-            marginLeft: 10,
-            marginRight: 0,
-            marginTop: 10,
-            paddingTop: 15,
+            width: "60%",
+            height: 45,
+            marginTop:10,
             borderColor: "#ccc",
             borderRadius: 50,
             backgroundColor: "#f6f6f6",
@@ -120,7 +112,7 @@ const styles = StyleSheet.create(
             alignItems: "center",
             justifyContent: "center",
             width: "50%",
-            backgroundColor:"#329C20",
+            backgroundColor:"#38a69d",
             paddingTop: 14,
             paddingBottom: 14,
             marginLeft: "auto",

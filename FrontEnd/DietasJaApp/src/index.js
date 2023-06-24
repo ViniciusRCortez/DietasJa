@@ -4,16 +4,17 @@ import Title from './components/Title/'
 import Login from "./pages/Login"
 import EditarLogin from "./pages/EditarLogin"
 import EditarPerfil from "./pages/EditarPerfil"
-import PrimeiroAcesso from "./pages/PrimeiroAcesso";
 import Routes from "./routes"
+import PrimeiroAcesso from "./pages/PrimeiroAcesso";
 import 'react-native-gesture-handler';
-import InformConsumo from "./pages/InformConsumo";
-import InformacoesDoUsuario from "./pages/InformacoesDoUsuario";
+import TelaInicial from "./pages/TelaInicial";
+import EditarMetas from "./pages/EditarMetas";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
     return(
         <View style={styles.container}>
-            <InformacoesDoUsuario></InformacoesDoUsuario>
+             <Routes></Routes>
         </View>
     );
 }

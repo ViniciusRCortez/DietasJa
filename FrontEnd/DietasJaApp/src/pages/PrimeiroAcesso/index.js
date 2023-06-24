@@ -1,16 +1,18 @@
 import React, {useState} from "react";
 import {Text, TextInput, View, TouchableOpacity, Image} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { useNavigation } from '@react-navigation/native';
 import styles from "./styles";
 
-export default function PrimeiroAcesso(){
-const [nome, setNome] = useState('');
-const [peso, setPeso] = useState('');
-const [altura, setAltura] = useState('');
-const [idade, setIdade] = useState('');
-const [isOpen, setIsOpen] = useState(false);
-const [meta, setMeta] = useState('');
-const [valoratual, setValorAtual] = useState();
+export default function PrimeiroAcesso({ handleLogin }){
+
+    const [nome, setNome] = useState('');
+    const [peso, setPeso] = useState('');
+    const [altura, setAltura] = useState('');
+    const [idade, setIdade] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const [meta, setMeta] = useState('');
+    const [valoratual, setValorAtual] = useState();
 
 function ValidarInformacoes(nome, peso, altura, idade, valoratual, meta) {
     if (nome.trim() === "") {
@@ -37,6 +39,8 @@ function ValidarInformacoes(nome, peso, altura, idade, valoratual, meta) {
         alert("Por favor, defina uma meta.");
         return;
     }
+    handleLogin();
+    console.log("Entrou!");
 }
 
 const items = [
@@ -48,7 +52,7 @@ const items = [
         <View style = {styles.CaixaTotal}>
 
             <View style = {styles.CaixaTitulo}>
-            <Image source = {require("../../assets/logomenor.png")}
+            <Image source = {require("../../assets/outralogo.png")}
                    style = {styles.imagemEstilo}></Image>
             <Text style = {styles.textoTitulo}>Dietas Já!</Text>
             </View>
@@ -99,7 +103,7 @@ const items = [
                 <TextInput style = {styles.estiloInputaolado}
                  value={altura}
                  onChangeText={setAltura}
-                 placeholder = "Ex: 1.80"
+                 placeholder = "Ex: 180 (cm)"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
@@ -109,12 +113,12 @@ const items = [
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 84.4"
+                 placeholder = "Ex: 84.4 (Kg)"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
                 
-                <Text style = {styles.estiloTexto}> Qual sua meta diária de Kcal?:</Text>
+                <Text style = {styles.estiloTexto}> Qual sua meta diária de calorias?</Text>
                 <TextInput style = {styles.estiloinput}  
                 value = {meta}
                 onChangeText={setMeta}
