@@ -8,8 +8,9 @@ import Routes from "./routes"
 import PrimeiroAcesso from "./pages/PrimeiroAcesso";
 import 'react-native-gesture-handler';
 import TelaInicial from "./pages/TelaInicial";
-import EditarMetas from "./pages/EditarMetas";
+import Cadastro from "./pages/Cadastro";
 import { NavigationContainer } from "@react-navigation/native";
+import CadastrarPrato from "./pages/CadastrarPrato";
 
 export default function App() {
     return(

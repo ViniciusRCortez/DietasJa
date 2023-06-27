@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 import TabRoutes from "./tab.routes";
 import InformConsumo from "../pages/InformConsumo";
 import Login from "../pages/Login";
@@ -21,15 +20,6 @@ export default function StackRoutes(){
             component = {TelaInicial}>
             </Stack.Screen>
 
-            <Stack.Screen 
-            name="Perfil" 
-            component={Perfil}/>
-
-            <Stack.Screen
-            name = "metas"
-            component = {EditarPerfil}>
-            </Stack.Screen>
-
             <Stack.Screen
              name="Login" 
              component={Login} />
@@ -47,7 +37,6 @@ export default function StackRoutes(){
             name="EditarLogin" 
             component={EditarLogin} />   
 
-             
         </Stack.Navigator>
     )
 }

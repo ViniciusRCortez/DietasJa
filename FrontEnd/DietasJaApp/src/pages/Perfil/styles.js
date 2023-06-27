@@ -30,15 +30,12 @@ const styles = StyleSheet.create(
 
         CaixaInfoMenor: {
             width: width * 0.6,
-            height: 40,
+            height: 45,
             justifyContent: "center",
             alignItems: "center",
             borderRadius: 50,
             backgroundColor: "#f6f6f6",
-            paddingLeft: 'auto',
-            paddingBottom: 0,
-            paddingTop: 0,
-            marginTop: 5,
+            marginTop: 10,
             alignSelf: 'flex-end',
           },
           

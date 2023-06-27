@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {Text, TextInput, View, TouchableOpacity, Image} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./styles";
+import { useNavigation } from '@react-navigation/native';
 
 export default function EditarPerfil(){
 
@@ -11,28 +12,31 @@ const [altura, setAltura] = useState('');
 const [idade, setIdade] = useState('');
 const [isOpen, setIsOpen] = useState(false);
 const [valoratual, setValorAtual] = useState();
+const navigation = useNavigation();
 
+// Funcoo que vai checar as informcaoes recebidas
 function ValidarInformacoes(nome, peso, altura, idade, valoratual) {
     if (nome.trim() === "") {
-      alert("Por favor, informe o nome.");
+      Alert.alert("Erro", "Por favor, informe o nome.");
       return;
     }
     if (valoratual === null) {
-      alert("Por favor, escolha o sexo.");
+      Alert.alert("Erro","Por favor, escolha o sexo.");
       return;
     }
     if (idade.trim() === "") {
-        alert("Por favor, informe a idade.");
+        Alert.alert("Erro","Por favor, informe a idade.");
         return;
     }
     if (altura.trim() === "") {
-        alert("Por favor, informe a altura.");
+        Alert.alert("Erro","Por favor, informe a altura.");
         return;
     }
     if (peso.trim() === "") {
-        alert("Por favor, informe o peso.");
+        Alert.alert("Erro","Por favor, informe o peso.");
         return;
       }
+      handleVoltar();
 }
 
 const items = [
@@ -40,14 +44,20 @@ const items = [
     {label: 'Feminino', value: 'feminino'},
 ]
 
+const handleVoltar = () => {
+    navigation.goBack();
+};
+
     return(
         <View style = {styles.CaixaTotal}>
             
             <View style = {styles.CaixaTitulo}>
-            <Image source = {require("../../assets/logomenor.png")}
+            <Image source = {require("../../assets/outralogo.png")}
                    style = {styles.imagemEstilo}></Image>
-            <Text style = {styles.textoTitulo}>Dietas Já!</Text>
+            <Text style = {styles.textoTitulo}>DietasJá! </Text>
             </View>
+
+            <Text style = {styles.textoSub}>Editar Perfil</Text>
 
             <View style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
@@ -119,7 +129,7 @@ const items = [
                 <TouchableOpacity
                     style = {styles.estilobotaoVoltar}
                 >
-                    <Text style = {styles.textoBotao}>Voltar</Text>
+                    <Text style = {styles.textoBotaoVolta} onPress ={handleVoltar}>Voltar</Text>
                 </TouchableOpacity>
 
             </View>

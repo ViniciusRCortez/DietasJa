@@ -11,7 +11,13 @@ const Tab = createBottomTabNavigator();
 
 export default function TabRoutes(){
     return(
-        <Tab.Navigator screenOptions= {{headerShown : false}}>
+        <Tab.Navigator screenOptions= {{headerShown : false, tabBarActiveTintColor: '#38aced', 
+        tabBarInactiveTintColor: 'gray', 
+        tabBarStyle: {
+          display: 'flex',
+          },
+        }}
+        >
             <Tab.Screen
                 name = "Início"
                 component = {TelaInicial}

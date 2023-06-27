@@ -1,17 +1,19 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { View, TouchableOpacity, Text, StyleSheet, Image, Dimensions} from 'react-native';
 
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
 import EditarMetas from "../pages/EditarMetas";
-import Perfil from "../pages/Perfil";
+import PerfilScreen from "../pages/Perfil";
+import CadastrarPrato from "../pages/CadastrarPrato";
 
 const Drawer = createDrawerNavigator();
 
-const Nwidth = Dimensions.get('window').width;
+const { width, height } = Dimensions.get('window');
 
 const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   const openDrawer = () => {
@@ -62,6 +64,7 @@ export default function DrawerRoutes({ handleLogOut }) {
         headerShown: true,
         header: ({ navigation }) => <CustomDrawerHeader navigation={navigation} handleLogOut={handleLogOut} />,
       }}
+      drawerContent={CustomDrawerContent}
     >
      <Drawer.Screen
         name="home"
@@ -76,7 +79,7 @@ export default function DrawerRoutes({ handleLogOut }) {
 
       <Drawer.Screen
         name="profile"
-        component={Perfil}
+        component={PerfilScreen}
         options={{
           drawerIcon: ({ color, size }) => (
             <Feather name="user" color={color} size={size} />
@@ -90,42 +93,82 @@ export default function DrawerRoutes({ handleLogOut }) {
         component={EditarMetas}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Feather name="target" color={color} size={size} />
+            <AntDesign name="edit" color={color} size={size} />
           ),
           drawerLabel: "Editar Metas"
+        }}
+      ></Drawer.Screen>
+
+      <Drawer.Screen
+        name="cadprato"
+        component={CadastrarPrato}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bowl-mix" color={color} size={size} />
+          ),
+          drawerLabel: "Cadastrar Alimento"
         }}
       ></Drawer.Screen>
     </Drawer.Navigator>
   );
 }
 
+function CustomDrawerContent(props) {
+
+  return (
+    <DrawerContentScrollView {...props}>
+       <View style={styles.drawerHeader}>
+        <Text style={styles.drawerHeaderText}>Menu</Text>
+      </View>
+      <DrawerItemList {...props} />
+
+    </DrawerContentScrollView>
+  );
+}
+
 // Estilo do Cabeçalho das telas
 const styles = StyleSheet.create({
+  
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    paddingTop:40,
+    backgroundColor: '#fff',
+    paddingHorizontal: width * 0.04,
+    paddingVertical: height * 0.01,
+    paddingTop: height * 0.035,
+    justifyContent: "center",
   },
   textContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 8,
+    marginLeft: width * 0.02,
+    justifyContent: "center",
   },
-  saidaContainer:{
-    paddingLeft: 105,
+  saidaContainer: {
+    paddingLeft: width * 0.23,
   },
-  textoestilo:{
-    fontSize: 32,
-    color: "#38a69d",
-    left: 36,
+  textoestilo: {
+    fontSize: width * 0.075,
+    color: '#38a69d',
+    left: width * 0.07,
     fontWeight: 'bold',
+    bottom: width * 0.005,
   },
-  imagemestilo:{
-    width: 80,
-    height: 50,
-    left: 45,
+  imagemestilo: {
+    width: width * 0.185,
+    height: height * 0.051,
+    left: width * 0.11,
+    bottom: width * 0.008,
+  },
+  drawerHeader: {
+    backgroundColor: '#fff',
+    paddingVertical: height * 0.03,
+    paddingHorizontal: width * 0.05,
+    justifyContent: 'center',
+  },
+  drawerHeaderText: {
+    fontSize: width * 0.065,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });

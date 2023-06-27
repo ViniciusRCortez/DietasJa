@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import styles from "./styles"
 
-
 const VisualisarIndices = () => {
   // Exemplo de valores de IMC e TMB
   const imc = 24.5;

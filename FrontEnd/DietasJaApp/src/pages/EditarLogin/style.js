@@ -6,11 +6,8 @@ const style = StyleSheet.create(
         CaixaTotal:{
             width:"100%",
             height:"auto",
-            bottom:0,
-            backgroundColor: "#ffffff",
-            marginTop:0,
-            borderTopLeftRadius:30,
-            borderTopRightRadius:30,
+            backgroundColor: "#38a69d",
+            flex: 1,
         },
 
         CaixaTitulo:{
@@ -22,24 +19,36 @@ const style = StyleSheet.create(
         },
 
         CaixaForm:{
-            width:"100%",
-            height:"auto", 
+            flex:2, 
             marginTop: 20,
-            padding:15, 
+            padding: 15,
+            backgroundColor: "#fff",
+            borderTopRightRadius: 50,
+            borderTopLeftRadius: 50,
         },
 
         textoTitulo:{
             fontSize: 37,
-            color: "#329C20",
             marginTop: 0,
             left: 22,
             height: 50,
-
+            fontWeight: "bold",
         },
 
         imagemEstilo:{
+            width: 90,
+            height: 50,
             top: 49,
-            left: -88,
+            right: 89,
+        },
+        textoSub:{
+            fontSize: 30,
+            color: "#fff",
+            textAlign: "center",
+            fontWeight: "bold",
+            marginTop: 10,
+            height: 35,
+            
         },
 
         estiloinput:{
@@ -62,21 +71,8 @@ const style = StyleSheet.create(
             borderRadius:50,
             alignItems: "center",
             justifyContent: "center",
-            width: "65%",
-            backgroundColor:"#329C20",
-            paddingTop: 14,
-            paddingBottom: 14,
-            marginLeft: "auto",
-            marginRight:"auto",
-            marginTop: 25,
-        },
-
-        estilobotaoVoltar:{
-            borderRadius: 50,
-            alignItems: "center",
-            justifyContent: "center",
-            width: "50%",
-            backgroundColor:"#207E9C",
+            width: "60%",
+            backgroundColor:"#38a69d",
             paddingTop: 14,
             paddingBottom: 14,
             marginLeft: "auto",
@@ -84,11 +80,22 @@ const style = StyleSheet.create(
             marginTop: 15,
         },
 
+        estilobotaoVoltar:{
+            alignItems: "center",
+          justifyContent: "center",
+          marginTop: 20,
+        },
+
         textoBotao:{
             fontSize: 18,
             color:"#ffffff",
         },
 
+        textoBotaoVolta:{
+            fontSize: 18,
+            textDecorationLine: 'underline'
+        },
+  
         mensagemErro:{
             fontSize: 16,
             color: "red",

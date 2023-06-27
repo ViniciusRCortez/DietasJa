@@ -57,7 +57,7 @@ const items = [
             <Text style = {styles.textoTitulo}>Dietas Já!</Text>
             </View>
 
-            <Text style = {styles.textoSub}>Primeiro Acesso                  </Text>
+            <Text style = {styles.textoSub}>Primeiro Acesso</Text>
 
             <View style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
@@ -103,7 +103,7 @@ const items = [
                 <TextInput style = {styles.estiloInputaolado}
                  value={altura}
                  onChangeText={setAltura}
-                 placeholder = "Ex: 180 (cm)"
+                 placeholder = "Ex: 1.80"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
@@ -113,7 +113,7 @@ const items = [
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 84.4 (Kg)"
+                 placeholder = "Ex: 84.4"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>

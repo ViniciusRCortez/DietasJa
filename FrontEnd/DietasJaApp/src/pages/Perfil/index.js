@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Perfil(){
 
-    const user = 'Fulano'
+    const user = 'Marcus'
     const sexo = 'Masculino' 
     const idade = 21
     const altura = 170
@@ -17,10 +17,7 @@ export default function Perfil(){
     const handleAlterarInformacoes = () => {
         navigation.navigate("EditarPerfil");
       };
-      
-      
-      
-
+    
     const handleVoltar = () => {
         navigation.goBack();
     };
