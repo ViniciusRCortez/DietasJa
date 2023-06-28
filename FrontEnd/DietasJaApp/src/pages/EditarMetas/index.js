@@ -1,21 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Text, View, TextInput, TouchableOpacity, } from "react-native";
 import styles from "./styles"
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import axios from 'axios'
+import {API_BASE_URL} from '../../config.js'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditarMetas(){
+    useEffect(() => { // useEffect: executa após a renderização dos componentes
+        enviarSolicitacaoGET();
+    }, [])
 
-    const [meta, setMeta] = useState(5000);
+    const [meta, setMeta] = useState(0);
     const margem  = Math.ceil(0.02 * meta);
     const [novaMeta, setNovaMeta] = useState("");
 
     const handleConcluir = () => {
         if (Number.isInteger(parseInt(novaMeta, 10))) {
-          const novaMetaInt = parseInt(novaMeta, 10);
-          setMeta(novaMetaInt);
-          setNovaMeta("");
+            var novaMetaInt = parseInt(novaMeta, 10);
+            // CONVERSÃO: nova meta é recebida em kcal, mas back trata como cal (multiplica por 1000)
+            novaMetaInt = novaMetaInt * 1000;
+            enviarSolicitacaoPATCH(novaMetaInt) // Salva alteração no banco
         }
     };
+
+    // Função retorna o token do usuário logado
+    const getToken = async () => {
+        try {
+            // const token_access = await AsyncStorage.getItem("auth-token-access");
+            const token_access = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3OTE5MzAzLCJpYXQiOjE2ODc5MDc5MDMsImp0aSI6IjRjOGM0OGRkMDQ1NjRiN2FhMzBmMTA0MjExY2U2MjlhIiwidXNlcl9pZCI6MTUsInVzZXIiOiJ1c3VcdTAwZTFyaW8xIiwiZGF0ZSI6IjIwMjMtMDYtMjciLCJpc0FkbWluIjpmYWxzZX0.PlJdW5RJxfTCjVxbrve67o58Y9a8IhzJDq92HW8FiQU";
+            if (token_access !== null) {
+                return token_access;
+            }
+        } catch (error) {
+            console.log('Erro ao obter token: ', error);
+        }
+    };
+
+    async function enviarSolicitacaoGET() {
+        const token_access = await getToken()
+        axios.get(`${API_BASE_URL}/meta/`,
+        {
+            headers: {'Authorization' : "Bearer " + token_access,
+                      'Content-Type'  : 'application/json',
+                      'Accept'        : 'application/json',
+                     }
+        })
+        .then((resposta) => {
+            var qtdCalorias = parseFloat(resposta.data[0]['qtd_calorias']); // Meta recebida pelo método GET (em cal)
+            qtdCalorias = qtdCalorias/1000;  // Convertendo para kcal (unidade do front)
+            setMeta(qtdCalorias) // Caixa de meta atual recebe o valor recebido da requisição GET
+            console.log('Executou GET, qtd_calorias: ', qtdCalorias)
+        })
+        .catch(function (erro) {
+            console.log('Erro ao executar GET: ', erro)
+        })
+    }
+    
+    async function enviarSolicitacaoPATCH(novaMeta) {
+        const token_access = await getToken()
+        axios.patch(`${API_BASE_URL}/meta/`,
+        { qtd_calorias: novaMeta },
+        {
+            headers: {'Authorization' : "Bearer " + token_access,
+                      'Content-Type'  : 'application/json',
+                      'Accept'        : 'application/json',
+                     }
+        }
+        )
+        .then(() => {
+            setMeta(novaMeta/1000) // Atualiza a caixa da meta atual (divide por 100, pois front considera kcal e back considera cal)
+            setNovaMeta('')       // Limpa caixa de meta antiga
+            console.log('PATCH executado com sucesso')
+        })
+        .catch((erro) => {
+            console.log('Erro ao executar PATCH: ', erro)
+        })
+    }
 
     const navigation = useNavigation();
 
