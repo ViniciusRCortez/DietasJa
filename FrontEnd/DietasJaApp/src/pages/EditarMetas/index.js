@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Text, View, TextInput, TouchableOpacity, } from "react-native";
+import {Text, View, TextInput, TouchableOpacity, Alert} from "react-native";
 import styles from "./styles"
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios'
@@ -20,7 +20,13 @@ export default function EditarMetas(){
             var novaMetaInt = parseInt(novaMeta, 10);
             // CONVERSÃO: nova meta é recebida em kcal, mas back trata como cal (multiplica por 1000)
             novaMetaInt = novaMetaInt * 1000;
-            enviarSolicitacaoPATCH(novaMetaInt) // Salva alteração no banco
+            if (novaMetaInt > 0) {
+                enviarSolicitacaoPATCH(novaMetaInt) // Salva alteração no banco
+            } else {
+                Alert.alert("Erro!", "O campo nova meta deve ser positivo.")
+            }
+        } else {
+            Alert.alert("Erro!", "O campo nova meta deve ser numérico.")
         }
     };
 
@@ -28,7 +34,7 @@ export default function EditarMetas(){
     const getToken = async () => {
         try {
             // const token_access = await AsyncStorage.getItem("auth-token-access");
-            const token_access = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3OTE5MzAzLCJpYXQiOjE2ODc5MDc5MDMsImp0aSI6IjRjOGM0OGRkMDQ1NjRiN2FhMzBmMTA0MjExY2U2MjlhIiwidXNlcl9pZCI6MTUsInVzZXIiOiJ1c3VcdTAwZTFyaW8xIiwiZGF0ZSI6IjIwMjMtMDYtMjciLCJpc0FkbWluIjpmYWxzZX0.PlJdW5RJxfTCjVxbrve67o58Y9a8IhzJDq92HW8FiQU";
+            const token_access = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3OTk1ODgzLCJpYXQiOjE2ODc5ODQ3ODMsImp0aSI6IjFiZmM5Y2JlZTlhODRkYWE5MmZkNDg1Y2U1NzkyZDA1IiwidXNlcl9pZCI6MTUsInVzZXIiOiJ1c3VcdTAwZTFyaW8xIiwiZGF0ZSI6IjIwMjMtMDYtMjgiLCJpc0FkbWluIjpmYWxzZX0.iFOkt8E5BnQhHPehxcO-FmASBR9HGbvKlNlIwj_atts";
             if (token_access !== null) {
                 return token_access;
             }
@@ -72,6 +78,7 @@ export default function EditarMetas(){
             setMeta(novaMeta/1000) // Atualiza a caixa da meta atual (divide por 100, pois front considera kcal e back considera cal)
             setNovaMeta('')       // Limpa caixa de meta antiga
             console.log('PATCH executado com sucesso')
+            Alert.alert("Sucesso!", "Sua meta diária foi atualizada com sucesso.");
         })
         .catch((erro) => {
             console.log('Erro ao executar PATCH: ', erro)
@@ -106,7 +113,7 @@ export default function EditarMetas(){
 
                 <View style = {styles.CaixaInfoMenorContainer}>
                     <Text style = {styles.estiloTexto}>Nova Meta:   </Text> 
-                    <TextInput style={styles.CaixaInfoMenorInput} value={novaMeta} onChangeText={setNovaMeta} />
+                    <TextInput style={styles.CaixaInfoMenorInput} value={novaMeta} keyboardType="numeric"  onChangeText={setNovaMeta} />
 
                 </View>
 
