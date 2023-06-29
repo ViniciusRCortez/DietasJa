@@ -3,8 +3,11 @@ import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+
 import axios from 'axios';
 import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Login({ handleLogin }) {
 
@@ -50,10 +53,8 @@ export default function Login({ handleLogin }) {
                 // Login bem-sucedido
 
                 // Salvar o token de acesso (access) no lado do cliente
-                const token = response.data.access;
-                // Você pode salvar o token em um estado ou em AsyncStorage, por exemplo
-                // Exemplo de salvamento em estado:
-                // setToken(token);
+                let token = response.data.access;
+                await AsyncStorage.setItem('jwt', `Bearer ${token}`)
 
                 // Chamar a função handleLogin se o login for bem-sucedido
                 handleLogin();
