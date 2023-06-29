@@ -1,11 +1,15 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import { View, Text,  } from 'react-native';
 import styles from "./styles"
 import * as Animatable from 'react-native-animatable';
 
-export default function TelaInicial() {
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-  const nome = "Marcus";
+export default function TelaInicial() {
+  
+  const [nome, setNome] = useState('')
   const meta = 2510;
   const consumo = 2000;
   const carb = 500;
@@ -13,6 +17,28 @@ export default function TelaInicial() {
   const gordura = 1000;
   const resto = (meta - consumo);
 
+  useEffect(() => {
+    getUserInfo();
+  }, [])
+
+  async function getUserInfo(){
+    try {
+      const token = await AsyncStorage.getItem('jwt')
+      const response = await axios.get(`${API_BASE_URL}/user-metrics/`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      if (response.status == 200){
+        const nome = response.data.nome
+        setNome(nome)
+      } else{
+        console.log(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <View style={styles.container}>
       <View style = {styles.containerTexto}>
