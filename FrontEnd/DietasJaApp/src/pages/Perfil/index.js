@@ -1,19 +1,54 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import EditarPerfil from "../EditarPerfil";
 import EditarLogin from "../EditarLogin";
 
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Perfil(){
 
-    const user = 'Jose gausto da '
-    const sexo = 'Masculino' 
-    const idade = 21
-    const altura = 170
-    const peso = 80
+    const [nome, setNome] = useState('')
+    const [sexo, setSexo] = useState('') 
+    const [idade, setIdade] = useState('')
+    const [altura, setAltura] = useState('')
+    const [peso, setPeso] = useState('')
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        getUserInfo();
+      }, [])
+    
+      async function getUserInfo(){
+        try {
+          const token = await AsyncStorage.getItem('jwt')
+          const response = await axios.get(`${API_BASE_URL}/user-metrics/`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          if (response.status == 200){
+            const nome = response.data.nome
+            const sexo = response.data.genero
+            const idade = response.data.idade
+            const altura = response.data.altura
+            const peso = response.data.peso
+            setNome(nome)
+            setSexo(sexo)
+            setIdade(idade)
+            setAltura(altura)
+            setPeso(peso)
+          } else{
+            console.log(response.data)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+    }
 
     const handleAlterarInformacoes = () => {
         navigation.navigate("EditarPerfil");
@@ -35,7 +70,7 @@ export default function Perfil(){
                 <View style={styles.CaixaInfoMenorContainer}>
                     <Text style = {styles.estiloTexto}>Nome:     </Text>
                     <View style={styles.CaixaInfoMenor}>
-                        <Text style={styles.textoInfo}>{user}</Text>
+                        <Text style={styles.textoInfo}>{nome}</Text>
                     </View>
                 </View>
             
