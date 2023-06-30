@@ -3,8 +3,6 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create(
     {
       CaixaTotal:{
-        width:"100%",
-        height:"auto",
         backgroundColor: "#38a69d",
         flex: 1,
     },
@@ -41,9 +39,9 @@ const styles = StyleSheet.create(
         },
 
         CaixaForm:{
-          flex:2, 
+           flexGrow: 1,
           marginTop: 20,
-          padding: 15,
+          padding:15,
           backgroundColor: "#fff",
           borderTopRightRadius: 50,
           borderTopLeftRadius: 50,

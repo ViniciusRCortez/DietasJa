@@ -6,19 +6,28 @@ const styles = StyleSheet.create(
     {
         CaixaTotalmente:{
             flex:1,
-            backgroundColor:"#fff",
+            backgroundColor:"#38a69d",
         },
 
         CaixaTotal:{
-            flex:1,
+            flex:2,
             backgroundColor:"#fff",
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
+            borderTopLeftRadius: 35,
+            borderTopRightRadius: 35,
             paddingStart: "6%",
             paddingEnd: "6%",
-            marginTop: height * 0.05,
+            marginTop: height * 0.03,
             alignItems: 'center',
 
+        },
+
+        textoSub:{
+            fontSize: 30,
+            color: "#fff",
+            textAlign: "center",
+            fontWeight: "bold",
+            marginTop: height * 0.02,
+            height: 35, 
         },
 
         form:{
@@ -63,7 +72,7 @@ const styles = StyleSheet.create(
           
 
         estilobotao:{
-            borderRadius:4,
+            borderRadius:410,
             alignItems: "center",
             justifyContent: "center",
             width: width * 0.7,

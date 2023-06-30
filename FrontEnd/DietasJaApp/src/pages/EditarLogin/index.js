@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput, Alert} from "react-native";
+import {View, Text, Image, TouchableOpacity, TextInput, Alert, ScrollView, SafeAreaView} from "react-native";
 import styles from "./style";
 import { useNavigation } from '@react-navigation/native';
 
@@ -34,15 +34,15 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
     
 }
     return(
-        <View style = {styles.CaixaTotal}>
+        <SafeAreaView style = {styles.CaixaTotal}>
 
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
                    style = {styles.imagemEstilo}></Image>
-            <Text style = {styles.textoTitulo}>Dietas Já!</Text>
+            <Text style = {styles.textoTitulo}>DietasJá</Text>
             </View>
             <Text style = {styles.textoSub}>Editar Cadastro</Text>
-            <View style = {styles.CaixaForm}>
+            <ScrollView style = {styles.CaixaForm}>
 
             <Text style = {styles.estiloTexto}> Novo Email:</Text>
             <TextInput 
@@ -88,7 +88,7 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
             >
                 <Text style = {styles.textoBotaoVolta}>Voltar</Text>
             </TouchableOpacity>
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

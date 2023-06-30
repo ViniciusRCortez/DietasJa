@@ -1,8 +1,10 @@
 import React, {useState} from "react";
-import {Text, TextInput, View, TouchableOpacity, Image} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, SafeAreaView, ScrollView} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from '@react-navigation/native';
 import styles from "./styles";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 export default function PrimeiroAcesso({ handleLogin }){
 
@@ -49,7 +51,7 @@ const items = [
 ]
 
     return(
-        <View style = {styles.CaixaTotal}>
+        <SafeAreaView style = {styles.CaixaTotal}>
 
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
@@ -59,7 +61,7 @@ const items = [
 
             <Text style = {styles.textoSub}>Primeiro Acesso</Text>
 
-            <View style = {styles.CaixaForm}>
+            <ScrollView style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
                 <TextInput 
                  style = {styles.estiloinput}
@@ -85,6 +87,7 @@ const items = [
                     textStyle={styles.dropDownPickerText}
                     arrowColor={styles.dropDownPickerArrow.color}
                     arrowSize={styles.dropDownPickerArrow.fontSize}
+                    listMode="SCROLLVIEW"  
                 />
                 </View>
 
@@ -134,7 +137,7 @@ const items = [
                 <Text style = {styles.textoBotao}>Avançar</Text>
                 </TouchableOpacity>
 
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, Alert, SafeAreaView, ScrollView} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
@@ -49,7 +49,7 @@ const handleVoltar = () => {
 };
 
     return(
-        <View style = {styles.CaixaTotal}>
+        <SafeAreaView style = {styles.CaixaTotal}>
             
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
@@ -59,7 +59,7 @@ const handleVoltar = () => {
 
             <Text style = {styles.textoSub}>Editar Perfil</Text>
 
-            <View style = {styles.CaixaForm}>
+            <ScrollView style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
                 <TextInput 
                  style = {styles.estiloinput}
@@ -85,6 +85,7 @@ const handleVoltar = () => {
                     textStyle={styles.dropDownPickerText}
                     arrowColor={styles.dropDownPickerArrow.color}
                     arrowSize={styles.dropDownPickerArrow.fontSize}
+                    listMode="SCROLLVIEW" 
                 />
                 </View>
 
@@ -132,7 +133,8 @@ const handleVoltar = () => {
                     <Text style = {styles.textoBotaoVolta} onPress ={handleVoltar}>Voltar</Text>
                 </TouchableOpacity>
 
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
+      
     );
 }
