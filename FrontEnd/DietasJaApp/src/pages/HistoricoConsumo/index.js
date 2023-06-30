@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, Modal, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, Modal, TouchableOpacity, Animated, Alert } from 'react-native';
 import styles from "./styles";
 import * as Animatable from 'react-native-animatable';
 import Particulas from "../../components/ParticulasEfeito";
@@ -57,24 +57,12 @@ export default function WeeklyCountScreen() {
     };
   }, []);
 
-    // Função retorna o token do usuário logado
-    const getToken = async () => {
-        try {
-            const token_access = await AsyncStorage.getItem("jwt");
-            if (token_access !== null) {
-                return token_access;
-            }
-        } catch (error) {
-            console.log('Erro ao obter token: ', error);
-        }
-    };
-
 	async function enviarSolicitacaoGETMetaDiaria() {
-		const token_access = await getToken();
+		const token_access = await AsyncStorage.getItem("jwt");
 		axios.get(`${API_BASE_URL}/meta/`,
 		{
             headers: {Authorization : token_access}
-		})
+		}, {validateStatus: () => true},)
 		.then((resposta) => {
 			diasDentroMeta = resposta.data[0]['seq_dias_atual'];
 			metaDiaria = resposta.data[0]['qtd_calorias']/1000;  // Converte para kcal
@@ -85,17 +73,22 @@ export default function WeeklyCountScreen() {
 		})
 		.catch((erro) => {
             setSeqDias(0);
-            setWeeklyData([]);            
+            setWeeklyData([]);
+			if(erro.response?.status == undefined) { // Erro 204 = undefined
+				Alert.alert("Erro", "Você não possui uma meta diária cadastrada. Cadastre-a e tente novamente.");
+			} else {
+				console.error(erro);
+			}
 			console.log("Erro ao executar GET da meta diária: ", erro);
 		})
 	}
 
 	async function enviarSolicitacaoGETMetaGamificada() {
-		const token_access = await getToken();
+		const token_access = await AsyncStorage.getItem("jwt");
 		axios.get(`${API_BASE_URL}/meta-gamificada/semana`,
 		{
             headers: {Authorization: token_access}
-		})
+		}, {validateStatus: () => true},)
 		.then((resposta) => {
 			var historico = [];		
 			for (var i=0; i<resposta.data.length; i++) {
