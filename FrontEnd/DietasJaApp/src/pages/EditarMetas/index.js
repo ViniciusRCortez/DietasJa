@@ -50,9 +50,14 @@ export default function EditarMetas(){
             qtdCalorias = qtdCalorias/1000;  // Convertendo para kcal (unidade do front)
             setMeta(qtdCalorias); // Caixa de meta atual recebe o valor recebido da requisição GET
             console.log('Executou GET, qtd_calorias: ', qtdCalorias);
-        })
+        }, {validateStatus: () => true},)
         .catch(function (erro) {
             setMeta(0);
+            if (erro.response?.status == undefined) { // Erro 204 = undefined
+                Alert.alert("Erro", "Você não possui uma meta diária cadastrada. Cadastre-a e tente novamente.");
+            } else {
+                console.error(erro);
+            }            
             console.log('Erro ao executar GET: ', erro);
         })
     }
@@ -65,9 +70,14 @@ export default function EditarMetas(){
             setNovaMeta('');       // Limpa caixa de meta antiga
             console.log('PATCH executado com sucesso');
             Alert.alert("Sucesso", "Sua meta diária foi atualizada com sucesso!");
-        })
+        }, {validateStatus: () => true},)
         .catch((erro) => {
             setMeta(0);
+            if (erro.response?.status == 400) { // Erro 400 = bad request gerada por patch em meta que não existe
+                Alert.alert("Erro", "Você não possui uma meta diária cadastrada. Cadastre-a e tente novamente.");
+            } else {
+                console.error(erro);
+            }
             console.log('Erro ao executar PATCH: ', erro);
         })
     }
