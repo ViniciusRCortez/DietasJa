@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import EditarPerfil from "../EditarPerfil";
@@ -69,6 +69,8 @@ export default function Perfil(){
             },
           })
           if (response.status == 200){
+            navigation.navigate(Login)
+            Alert.alert("Saudades!","Seu usuário foi deletado com sucesso");
             console.log(response.data)
           } else{
             console.log(response.data)
