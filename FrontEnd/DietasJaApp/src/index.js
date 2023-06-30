@@ -10,6 +10,7 @@ import 'react-native-gesture-handler';
 import TelaInicial from "./pages/TelaInicial";
 import Cadastro from "./pages/Cadastro";
 import { NavigationContainer } from "@react-navigation/native";
+import CadastrarPrato from "./pages/CadastrarPrato";
 
 export default function App() {
     return(

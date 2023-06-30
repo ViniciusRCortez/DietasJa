@@ -2,12 +2,11 @@ import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import EditarPerfil from "../EditarPerfil";
-import EditarLogin from "../EditarLogin";
+
 
 export default function Perfil(){
 
-    const user = 'Jose gausto da '
+    const user = 'Marcus'
     const sexo = 'Masculino' 
     const idade = 21
     const altura = 170
