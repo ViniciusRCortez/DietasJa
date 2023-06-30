@@ -4,6 +4,7 @@ import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import EditarPerfil from "../EditarPerfil";
 import EditarLogin from "../EditarLogin";
+import Login from "../Login"
 
 import axios from 'axios';
 import { API_BASE_URL } from "../../config";
@@ -52,6 +53,9 @@ export default function Perfil(){
             console.log(response.data)
           }
         } catch (error) {
+            if(error.response.status == 401){
+                navigation.navigate(Login)
+            }
           console.log(error)
         }
     }
@@ -59,7 +63,7 @@ export default function Perfil(){
     async function deleteUser(){
         try {
           const token = await AsyncStorage.getItem('jwt')
-          const response = await axios.get(`${API_BASE_URL}/delete-user/`, {
+          const response = await axios.delete(`${API_BASE_URL}/delete-user/`, {
             headers: {
               Authorization: token,
             },
@@ -115,7 +119,7 @@ export default function Perfil(){
                 <View style = {styles.CaixaInfoMenorContainer}> 
                     <Text style = {styles.estiloTexto}>Altura:     </Text> 
                     <View style={styles.CaixaInfoMenor}>
-                        <Text style={styles.textoInfo}>{altura} cm</Text>
+                        <Text style={styles.textoInfo}>{altura} m</Text>
                     </View>
                 </View>
 

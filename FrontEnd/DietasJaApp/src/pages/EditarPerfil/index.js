@@ -3,12 +3,13 @@ import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-nativ
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
+import Login from "../Login"
 
 import axios from 'axios';
 import { API_BASE_URL } from "../../config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function EditarPerfil(){
+export default function EditarPerfil({handleLogOut}){
 
 const [reload, setReload] = useState(false); // Estado para recarregar a página
 
@@ -82,6 +83,9 @@ const items = [
         console.log(response.data)
       }
     } catch (error) {
+      if(error.response.status == 401){
+        navigation.navigate(Login)
+    }
       console.log(error)
     }
 }

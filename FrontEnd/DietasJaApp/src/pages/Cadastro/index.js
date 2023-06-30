@@ -5,6 +5,10 @@ import * as Animatable from 'react-native-animatable';
 import {} from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function TelaCadastro(){
     const [textButton, setTextButton] = useState("Login");
 
@@ -16,9 +20,7 @@ export default function TelaCadastro(){
 
     function ValidationCadastro(){
         if (ValidationInformacao(email,senha,nome)){
-            setEmail('');
-            setSenha('');
-            setNome('');
+            cadastro(email, senha, nome)
             navigation.navigate('PrimeiroAcesso');
             //handleVoltar();
             return;
@@ -37,6 +39,25 @@ export default function TelaCadastro(){
         }
         return true;
         
+    }
+
+    async function cadastro(email,senha,nome){
+        try {
+          const response = await axios.post(`${API_BASE_URL}/sign-in/`, {
+            username: email,
+            password: senha
+          })
+          if (response.status == 200){
+            let userId = response.data.id;
+            await AsyncStorage.setItem('userId', userId)
+            
+            return
+          } else{
+            console.log(response.data)
+          }
+        } catch (error) {
+          console.log(error)
+        }
     }
 
     return <>
