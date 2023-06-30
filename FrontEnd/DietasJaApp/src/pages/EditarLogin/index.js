@@ -3,6 +3,10 @@ import {View, Text, Image, TouchableOpacity, TextInput, Alert} from "react-nativ
 import styles from "./style";
 import { useNavigation } from '@react-navigation/native';
 
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function EditarLogin(){
 
     const navigation = useNavigation();
@@ -14,8 +18,7 @@ export default function EditarLogin(){
 
 function ValidationSenha(){
     if (ValidationInformacao(email,senha,novasenha,validarsenha)){
-        Alert.alert("Sucesso", "Informações alteradas com sucesso!")
-        handleVoltar();
+        PatchInfos(email,senha)
         return;
     }
     else{
@@ -32,6 +35,33 @@ function ValidationInformacao(email,senha,novasenha, validarsenha){
     }
     return true;
     
+}
+
+async function PatchInfos(email,senha){
+
+    try {
+        const token = await AsyncStorage.getItem('jwt')
+
+        const response = await axios.patch(`${API_BASE_URL}/update-user/`,
+        {
+            username: email,
+            password: senha
+        },
+        {
+        headers: {
+            Authorization: token,
+        },
+        })
+      if (response.status == 200){
+        console.log(response.data)
+        Alert.alert("Sucesso", "Informações alteradas com sucesso!")
+        handleVoltar()
+      } else{
+        console.log(response.data)
+      }
+    } catch (error) {
+        console.log(error)
+    }
 }
     return(
         <View style = {styles.CaixaTotal}>

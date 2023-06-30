@@ -17,11 +17,17 @@ export default function Perfil(){
     const [altura, setAltura] = useState('')
     const [peso, setPeso] = useState('')
 
+    const [reload, setReload] = useState(false)
+
     const navigation = useNavigation();
 
     useEffect(() => {
-        getUserInfo();
-      }, [])
+        if (reload) {
+            // Recarrega a página
+            setReload(false); // Reseta o estado de recarregar
+            getUserInfo();
+          }
+      }, [reload])
     
       async function getUserInfo(){
         try {
@@ -42,6 +48,24 @@ export default function Perfil(){
             setIdade(idade)
             setAltura(altura)
             setPeso(peso)
+          } else{
+            console.log(response.data)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+    }
+
+    async function deleteUser(){
+        try {
+          const token = await AsyncStorage.getItem('jwt')
+          const response = await axios.get(`${API_BASE_URL}/delete-user/`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          if (response.status == 200){
+            console.log(response.data)
           } else{
             console.log(response.data)
           }
@@ -104,17 +128,20 @@ export default function Perfil(){
                 </View>
 
                 <TouchableOpacity style={styles.estilobotao} onPress= {handleAlterarInformacoes}>
-                        <Text style = {styles.textoBotao}>Alterar Informações</Text>
-                    </TouchableOpacity>
+                    <Text style = {styles.textoBotao}>Alterar Informações</Text>
+                </TouchableOpacity>
 
-                    <TouchableOpacity style = {styles.estilobotao} onPress={handleAlterarCadastro}>
-                        <Text style = {styles.textoBotao}>Alterar E-mail e Senha</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity style = {styles.estilobotao} onPress={deleteUser}>
+                    <Text style = {styles.textoBotao}>Deletar Conta</Text>
+                </TouchableOpacity>
 
-                    <TouchableOpacity style = {styles.estilobotaoVoltar} onPress={handleVoltar}>
-                        <Text style = {styles.textoBotaoVolta}>Voltar</Text>
-                        
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.estilobotaoVoltar} onPress={() => setReload(true)}>
+                    <Text style = {styles.textoBotaoVolta}>Recarregar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style = {styles.estilobotaoVoltar} onPress={handleVoltar}>
+                    <Text style = {styles.textoBotaoVolta}>Voltar</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
