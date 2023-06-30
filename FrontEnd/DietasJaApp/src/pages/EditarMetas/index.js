@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Text, View, TextInput, TouchableOpacity, Alert} from "react-native";
+import {Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator} from "react-native";
 import styles from "./styles"
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
@@ -7,13 +7,23 @@ import {API_BASE_URL} from '../../config.js';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditarMetas(){
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [meta, setMeta] = useState(500);
+    const margem  = Math.ceil(0.02 * meta);
+    const [novaMeta, setNovaMeta] = useState("");
+
+    // Chamar o carregamento da tela
     useEffect(() => { // useEffect: executa após a renderização dos componentes
         enviarSolicitacaoGET();
     }, [])
 
-    const [meta, setMeta] = useState(0);
-    const margem  = Math.ceil(0.02 * meta);
-    const [novaMeta, setNovaMeta] = useState("");
+    if (isLoading) {
+        return (
+          <View style={styles.container}>
+            <ActivityIndicator size="large" color="#38acbe" />
+          </View>
+    );}
 
     const handleConcluir = () => {
         if (Number.isInteger(parseInt(novaMeta, 10))) {
@@ -30,26 +40,15 @@ export default function EditarMetas(){
         }
     };
 
-    // Função retorna o token do usuário logado
-    const getToken = async () => {
-        try {
-            const token_access = await AsyncStorage.getItem("jwt");
-            if (token_access !== null) {
-                return token_access;
-            }
-        } catch (error) {
-            console.log('Erro ao obter token: ', error);
-        }
-    };
-
     async function enviarSolicitacaoGET() {
-        const token_access = await getToken();
+        const token_access = await AsyncStorage.getItem("jwt");
         axios.get(`${API_BASE_URL}/meta/`, {headers: {Authorization: token_access}})
         .then((resposta) => {
             var qtdCalorias = parseFloat(resposta.data[0]['qtd_calorias']); // Meta recebida pelo método GET (em cal)
             qtdCalorias = qtdCalorias/1000;  // Convertendo para kcal (unidade do front)
             setMeta(qtdCalorias); // Caixa de meta atual recebe o valor recebido da requisição GET
             console.log('Executou GET, qtd_calorias: ', qtdCalorias);
+            setIsLoading(false);
         }, {validateStatus: () => true},)
         .catch(function (erro) {
             setMeta(0);
@@ -59,11 +58,12 @@ export default function EditarMetas(){
                 console.error(erro);
             }            
             console.log('Erro ao executar GET: ', erro);
+            setIsLoading(false);
         })
     }
     
     async function enviarSolicitacaoPATCH(novaMeta) {
-        const token_access = await getToken();
+        const token_access = await AsyncStorage.getItem("jwt");
         axios.patch(`${API_BASE_URL}/meta/`, {qtd_calorias: novaMeta}, {headers: {Authorization: token_access,}})
         .then(() => {
             setMeta(novaMeta/1000) // Atualiza a caixa da meta atual (divide por 100, pois front considera kcal e back considera cal)
@@ -87,9 +87,8 @@ export default function EditarMetas(){
     const handleVoltar = () => {
         navigation.goBack();
     };
-      
-    return(
 
+    return(
         <View style = {styles.CaixaTotalmente}>
             <View style = {styles.CaixaTotalmente}>
 
@@ -125,6 +124,7 @@ export default function EditarMetas(){
                 </View>
             </View>
             </View>
+            
         </View>
     );
 }
