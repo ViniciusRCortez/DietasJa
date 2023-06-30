@@ -21,7 +21,6 @@ export default function TelaCadastro(){
     function ValidationCadastro(){
         if (ValidationInformacao(email,senha,nome)){
             cadastro(email, senha, nome)
-            navigation.navigate('PrimeiroAcesso');
             //handleVoltar();
             return;
         }
@@ -47,11 +46,11 @@ export default function TelaCadastro(){
             username: email,
             password: senha
           })
-          if (response.status == 200){
+          if (response.status == 201){
             let userId = response.data.id;
-            await AsyncStorage.setItem('userId', userId)
+            await AsyncStorage.setItem('userId', `${userId}`)
             
-            return
+            navigation.navigate('PrimeiroAcesso');
           } else{
             console.log(response.data)
           }

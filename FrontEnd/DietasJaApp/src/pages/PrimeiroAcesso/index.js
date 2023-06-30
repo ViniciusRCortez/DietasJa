@@ -1,10 +1,15 @@
 import React, {useState} from "react";
-import {Text, TextInput, View, TouchableOpacity, Image} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from '@react-navigation/native';
 import styles from "./styles";
 
-export default function PrimeiroAcesso({ handleLogin }){
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Login from "../Login"
+
+export default function PrimeiroAcesso(){
 
     const [nome, setNome] = useState('');
     const [peso, setPeso] = useState('');
@@ -14,7 +19,9 @@ export default function PrimeiroAcesso({ handleLogin }){
     const [meta, setMeta] = useState('');
     const [valoratual, setValorAtual] = useState();
 
-function ValidarInformacoes(nome, peso, altura, idade, valoratual, meta) {
+    const navigation = useNavigation();
+
+function ValidarInformacoes(nome, peso, altura, idade, meta, valoratual) {
     if (nome.trim() === "") {
       alert("Por favor, informe o nome.");
       return;
@@ -39,14 +46,49 @@ function ValidarInformacoes(nome, peso, altura, idade, valoratual, meta) {
         alert("Por favor, defina uma meta.");
         return;
     }
-    handleLogin();
-    console.log("Entrou!");
+
+    cadastro(nome, peso, altura, idade, valoratual)
+    navigation.navigate(Login)
 }
 
 const items = [
     {label: 'Masculino', value: 'masculino'},
     {label: 'Feminino', value: 'feminino'},
 ]
+
+async function cadastro(nome, peso, altura, idade, valoratual){
+    try {
+
+      const userId = await AsyncStorage.getItem('userId')
+
+      if (valoratual === 'masculino') {
+        var genero = 'M';
+      } else if (valoratual === 'feminino') {
+        var genero = 'F';
+      }
+
+      const response = await axios.post(`${API_BASE_URL}/new-user-metrics/`, {
+        nome: nome,
+        genero: genero,
+        altura: altura/100,
+        peso: peso/1000,
+        idade: idade,
+        usuario: userId
+      })
+      if (response.status == 201){
+        Alert.alert("Bem-vindo","Usuário criado com sucesso");
+        console.log(response.data)
+        return
+      } else{
+        console.log(response.data)
+        return
+      }
+    } catch (error) {
+      Alert.alert("Erro","Não foi possivel criar o usuário, tente novamente mais tarde");
+      console.log(error)
+      return
+    }
+}
 
     return(
         <View style = {styles.CaixaTotal}>
@@ -99,21 +141,21 @@ const items = [
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Altura: </Text> 
+                <Text style = {styles.estiloTexto}>Altura(cm): </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={altura}
                  onChangeText={setAltura}
-                 placeholder = "Ex: 1.80"
+                 placeholder = "Ex: 180cm = 1.80m"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Peso:   </Text> 
+                <Text style = {styles.estiloTexto}>Peso(g):  </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 84.4"
+                 placeholder = "Ex: 10000g = 10Kg"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
