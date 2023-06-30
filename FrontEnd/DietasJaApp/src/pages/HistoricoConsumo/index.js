@@ -22,7 +22,6 @@ export default function WeeklyCountScreen() {
 	useEffect(()=>{ // Executa sempre que tela recebe o foco
 		console.log("Abriu tela de histórico de metas");
 		enviarSolicitacaoGETMetaDiaria();
-		// setIsLoading(false);
 		navigation.addListener('focus', ()=>setLoad(!load));
 	}, [load, navigation])
 
@@ -108,7 +107,7 @@ export default function WeeklyCountScreen() {
 		setIsLoading(false);
 	}
 
-	// Função recebe uma data no formato "YYYY-MM-DD" (string) e retorna data no formato DD/MM/AAAA - dia da semana (string)
+	// Função recebe uma data no formato "YYYY-MM-DD" (string) e retorna data no formato DD/MM/AAAA (dia da semana) (string)
 	function tratarData(data) {
 		const diasSemana = {0: "domingo", 1: "segunda-feira", 2: "terça-feira", 3: "quarta-feira", 4: "quinta-feira", 5: "sexta-feira", 6: "sábado"};
 		var dataSplit = data.split("-");
