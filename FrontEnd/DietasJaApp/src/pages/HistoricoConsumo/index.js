@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, Modal, TouchableOpacity, Animated, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, Modal, TouchableOpacity, Animated, Alert, ActivityIndicator } from 'react-native';
 import styles from "./styles";
 import * as Animatable from 'react-native-animatable';
 import Particulas from "../../components/ParticulasEfeito";
@@ -14,6 +14,7 @@ export default function WeeklyCountScreen() {
 	const [load, setLoad] = useState(true);
 	const [weeklyData, setWeeklyData] = useState([]);
 	const [seqDias, setSeqDias] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
 
 	var metaDiaria = 0;
 	var diasDentroMeta = 0;
@@ -21,9 +22,10 @@ export default function WeeklyCountScreen() {
 	useEffect(()=>{ // Executa sempre que tela recebe o foco
 		console.log("Abriu tela de histórico de metas");
 		enviarSolicitacaoGETMetaDiaria();
+		// setIsLoading(false);
 		navigation.addListener('focus', ()=>setLoad(!load));
-	 }, [load, navigation])
-   
+	}, [load, navigation])
+
   const [message, setMessage] = useState('');
   const [message2, setMessage2] = useState('');
   const [message3, setMessage3] = useState('');
@@ -80,6 +82,7 @@ export default function WeeklyCountScreen() {
 				console.error(erro);
 			}
 			console.log("Erro ao executar GET da meta diária: ", erro);
+			setIsLoading(false);
 		})
 	}
 
@@ -102,6 +105,7 @@ export default function WeeklyCountScreen() {
 		.catch((erro) => {
 			console.log("Erro ao executar GET: ", erro);
 		})
+		setIsLoading(false);
 	}
 
 	// Função recebe uma data no formato "YYYY-MM-DD" (string) e retorna data no formato DD/MM/AAAA - dia da semana (string)
@@ -113,8 +117,16 @@ export default function WeeklyCountScreen() {
 		var data = new Date(dataMDA);
 		var diaSemana = diasSemana[data.getDay()];
 		var dataFormatada = dataDMA + " (" + diaSemana + ")";
-		return dataFormatada
+		return dataFormatada;
 	}
+
+    // Chamar o carregamento da tela
+    if (isLoading) {
+        return (
+          <View style={styles.container}>
+            <ActivityIndicator size="large" color="#38acbe" />
+          </View>
+    );}	
 
   return (
       <ScrollView contentContainerStyle={styles.container}>
