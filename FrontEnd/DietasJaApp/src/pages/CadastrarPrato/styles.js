@@ -122,6 +122,8 @@ const styles = StyleSheet.create(
         listaContainer: {
           flex: 1,
           maxHeight: 165,
+          minHeight: 0.20 * height,
+          minWidth: 0.8 * width,
         },
         flatList: {
           flex: 1,
@@ -136,7 +138,11 @@ const styles = StyleSheet.create(
           fontSize: 16,
           fontWeight: 'bold',
         },
-
+        tituloLista: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginTop: 15,
+        },
         itemDescricao: {
           fontSize: 14,
           color: 'gray',
@@ -147,6 +153,8 @@ const styles = StyleSheet.create(
           padding: 8,
           borderRadius: 4,
           marginTop: 8,
+          minWidth: 0.25 * width,
+          alignSelf: "center"
         },
         deleteButtonText: {
           color: "white",
