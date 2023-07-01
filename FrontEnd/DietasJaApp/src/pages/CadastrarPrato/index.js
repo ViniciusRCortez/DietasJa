@@ -106,11 +106,12 @@ export default function CadastrarPrato() {
     }
 
     async function enviarSolicitacaoPOST() {
+        var calorias = 4000 * (proteinas + carboidratos) + 9000*gorduras;
         const token_access = await AsyncStorage.getItem("jwt");
         axios.post(`${API_BASE_URL}/alimentos/`,
         { nome: nome,
           porcao: quantidade,
-          qtd_calorias: 4000 * (proteinas + carboidratos) + 9000*gorduras,
+          qtd_calorias: calorias,
           qtd_carboidratos: carboidratos,
           qtd_proteinas: proteinas,
           qtd_gorduras: gorduras,
@@ -120,18 +121,21 @@ export default function CadastrarPrato() {
         {validateStatus: () => true},
         )
         .then(() => {
-			setNome("");
-			setGorduras("");
-			setProteinas("");
-			setCarboidratos("");
-			setQuantidade("");
             const novoPrato = {
                 nome,
+                quantidade: quantidade,
+                kcal: calorias/1000,
                 gorduras: parseInt(gorduras),
                 proteinas: parseInt(proteinas),
                 carboidratos: parseInt(carboidratos),
               };
             setListaPratos([...listaPratos, novoPrato]); // Atualizando a listagem de pratos (alimentos cadastrados)
+			setNome("");
+			setGorduras("");
+			setProteinas("");
+			setCarboidratos("");
+			setQuantidade("");
+
             Alert.alert("Sucesso", "Alimento cadastrado com sucesso!");
             console.log('POST de alimento executado com sucesso');
         })
