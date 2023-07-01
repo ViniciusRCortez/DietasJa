@@ -4,8 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RefeicaoSerializer
-from .models import Refeicao
-
+from .models import Refeicao, Alimento
 
 @permission_classes([IsAuthenticated])
 class RefeicoesView(APIView):
@@ -24,20 +23,26 @@ class RefeicoesView(APIView):
 
     def post(self, request, format=None):
         refeicao_data = request.data.copy()
+        print(refeicao_data)
         if refeicao_data.__contains__('e_padrao'):
-            refeicao_data.__setitem__('e_padrao', False) # Se requisição já tem o campo e_padrao, modifica-o para False
+            refeicao_data.__setitem__('e_padrao', False)
+             # Se requisição já tem o campo e_padrao, modifica-o para False
+
         else: # Caso contrário, adiciona par ('e_padrao', False) ao QueryDict
             refeicao_data["e_padrao"] = False
         
         serializer = RefeicaoSerializer(data=refeicao_data)
+ 
         if serializer.is_valid(raise_exception=True):
-            nova_refeicao = serializer.save(commit = False)  
-            # Aplica a lógica de atualizar campos acumulados na nova refeição
-            nova_refeicao.atualizar_campos_acumulados()
-            nova_refeicao.save()
-            serializer_2 = RefeicaoSerializer(nova_refeicao)
-            if serializer_2.is_valid(raise_exception=True):
-                return Response(serializer_2.data, status=status.HTTP_200_OK)
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        #     nova_refeicao = serializer.save(commit = False)  
+        #     # Aplica a lógica de atualizar campos acumulados na nova refeição
+        #     nova_refeicao.atualizar_campos_acumulados()
+        #     nova_refeicao.save()
+        #     serializer_2 = RefeicaoSerializer(nova_refeicao)
+        #     if serializer_2.is_valid(raise_exception=True):
+        #         return Response(serializer_2.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -70,7 +75,7 @@ class RefeicoesView(APIView):
 
     def delete(self, request, idRefeicao = None, format=None):
         # Verificando se conversor de caminho foi informado na requisição
-        if idAlimento == None:
+        if idRefeicao == None:
             return Response(['erro: o id do alimento deve ser informado na requisição'], status=status.HTTP_400_BAD_REQUEST)
         
         # Busca alimento pelo id
@@ -94,11 +99,11 @@ class RefeicoesView(APIView):
         
         try:
             refeicao = Refeicao.objects.get(id=idRefeicao)
-            alimento = Alimentos.objects.get(id=idAlimento)
+            alimento = Alimento.objects.get(id=idAlimento)
             
         except Refeicao.DoesNotExist:
             return Response("Refeição não encontrada.", status=status.HTTP_404_NOT_FOUND)
-        except Alimentos.DoesNotExist:
+        except Alimento.DoesNotExist:
             return Response("Alimento não encontrado.", status=status.HTTP_404_NOT_FOUND)
 
         if refeicao.e_padrao:
@@ -122,11 +127,11 @@ class RefeicoesView(APIView):
         
         try:
             refeicao = Refeicao.objects.get(id=idRefeicao)
-            alimento = Alimentos.objects.get(id=idAlimento)
+            alimento = Alimento.objects.get(id=idAlimento)
             
         except Refeicao.DoesNotExist:
             return Response("Refeição não encontrada.", status=status.HTTP_404_NOT_FOUND)
-        except Alimentos.DoesNotExist:
+        except Alimento.DoesNotExist:
             return Response("Alimento não encontrado.", status=status.HTTP_404_NOT_FOUND)
 
         if refeicao.e_padrao:
@@ -204,7 +209,7 @@ class RefeicoesPadroesView(APIView):
         
         try:
             refeicao = Refeicao.objects.get(id=idRefeicao)
-            alimento = Alimentos.objects.get(id=idAlimento)
+            alimento = Alimento.objects.get(id=idAlimento)
             
         except Refeicao.DoesNotExist:
             return Response("Refeição não encontrada.", status=status.HTTP_404_NOT_FOUND)

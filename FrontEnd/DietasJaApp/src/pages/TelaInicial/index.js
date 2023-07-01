@@ -48,7 +48,7 @@ export default function TelaInicial() {
               Authorization: token_access,
             }
           });
-          const qtdCalorias = parseFloat(respostameta.data[0]['qtd_calorias'])/1000;
+          const qtdCalorias = ((respostameta.data[0]['qtd_calorias'])/1000);
           setMeta(qtdCalorias);
           console.log('Executou GET, meta:', qtdCalorias);
         } catch (error) {
@@ -62,8 +62,8 @@ export default function TelaInicial() {
               Authorization: token_access,
             }
           });
-          console.log('Resposta da API respostaconsumo:', respostaconsumo.data);
-          const qtdConsumo = parseFloat(respostaconsumo.data.calorias_consumidas);
+          
+          const qtdConsumo = (respostaconsumo.data.calorias_consumidas)/1000;
           const qtdCarboidratos = parseFloat(respostaconsumo.data.qtd_carboidratos); 
           const qtdProteinas = parseFloat(respostaconsumo.data.qtd_proteinas);
           const qtdGorduras = parseFloat(respostaconsumo.data.qtd_gorduras);
@@ -117,13 +117,13 @@ export default function TelaInicial() {
       <Animatable.View animation= "fadeInLeft" delay={500} style={styles.rectangle}>
         <Text style={styles.infoTitle}>Meta de Calorias Diárias</Text>
         <View style={styles.separator} />
-        <Text style={styles.infoValue}>{meta} cal</Text>
+        <Text style={styles.infoValue}>{meta} Kcal</Text>
       </Animatable.View>
 
       <Animatable.View animation= "fadeInLeft" delay={600} style={styles.redrectangle}>
         <Text style={styles.infoTitle}>Calorias Consumidas</Text>
         <View style={styles.separator} />
-        <Text style={styles.infoValue}>{consumo} cal</Text>
+        <Text style={styles.infoValue}>{consumo} Kcal</Text>
       </Animatable.View>
 
       <Animatable.View animation= "fadeInLeft" delay={700} style={styles.macronutrientsRectangle}>

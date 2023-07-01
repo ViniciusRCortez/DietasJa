@@ -4,7 +4,6 @@ from MetaDiaria.models import MetaDiaria
 from Refeicao.models import Refeicao
 from django.db.models import Sum
 
-
 class Consumo(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.SET_NULL,null = True)
     meta_diaria_id= models.OneToOneField(MetaDiaria, on_delete=models.SET_NULL,null=True)

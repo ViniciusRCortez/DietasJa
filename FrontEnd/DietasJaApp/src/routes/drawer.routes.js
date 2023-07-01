@@ -10,6 +10,7 @@ import StackRoutes from "./stack.routes";
 import EditarMetas from "../pages/EditarMetas";
 import PerfilScreen from "../pages/Perfil";
 import CadastrarPrato from "../pages/CadastrarPrato";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,13 +20,12 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   const openDrawer = () => {
     navigation.openDrawer();
   };
-
+   
+  // Lógica para realizar o logout com a conexão com o backend
   const ChamarSaida = async () => {
     try {
-      // Lógica para realizar o logout com a conexão com o backend
-      // Por exemplo, enviar uma solicitação para invalidar o token de autenticação no servidor
-      
-      // Aguarde a resposta do backend
+        // Limpar o token de acesso armazenado localmente (exemplo usando AsyncStorage)
+      await AsyncStorage.removeItem("jwt");
 
       // Se a resposta for bem-sucedida, chame a função handleLogOut para atualizar o estado de login
       handleLogOut();
