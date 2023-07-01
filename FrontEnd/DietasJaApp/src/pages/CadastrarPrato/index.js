@@ -91,7 +91,7 @@ export default function CadastrarPrato() {
             // Insere os dados recebidos da requisição na lista de pratos
             var pratos = [];
             for (var i=0; i<resposta.data.length; i++) {
-                pratos.push({id: resposta.data[i]["id"], nome: resposta.data[i]["nome"], kcal: resposta.data[i]["qtd_calorias"]/1000, proteinas: resposta.data[i]["qtd_proteinas"], carboidratos: resposta.data[i]["qtd_carboidratos"], gorduras: resposta.data[i]["qtd_gorduras"]});
+                pratos.push({id: resposta.data[i]["id"], nome: resposta.data[i]["nome"], quantidade: resposta.data[i]["porcao"], kcal: resposta.data[i]["qtd_calorias"]/1000, proteinas: resposta.data[i]["qtd_proteinas"], carboidratos: resposta.data[i]["qtd_carboidratos"], gorduras: resposta.data[i]["qtd_gorduras"]});
             }
             // Atualiza a lista de pratos
             setListaPratos(pratos);
