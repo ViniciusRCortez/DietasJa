@@ -105,7 +105,7 @@ const styles = StyleSheet.create(
       marginBottom: 20,
       padding: 10,
       fontWeight: 'bold',
-      backgroundColor: '#F17163',
+      backgroundColor: '#01C099',
       textAlign: 'center',
       borderRadius: 10,
       // Estilizações adicionais
@@ -133,9 +133,9 @@ const styles = StyleSheet.create(
       marginBottom: 40,
       padding: 10,
       fontWeight: 'bold',
-      backgroundColor: '#01C099',
       textAlign: 'center',
       borderRadius: 10,
+      backgroundColor: "#01C099",
       // Estilizações adicionais
       borderColor: 'black',
     },

@@ -6,7 +6,7 @@ import {} from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function TelaCadastro(){
-    const [textButton, setTextButton] = useState("Login");
+    const [textButton, setTextButton] = useState("Avançar");
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');

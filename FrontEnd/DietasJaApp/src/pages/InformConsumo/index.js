@@ -62,13 +62,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         }
         // Cria um array com os IDs dos alimentos selecionados
         const alimentosIds = alimentosSelecionados.map((alimento) => alimento.id);
-        console.log(alimentosIds);
-        console.log(totalCarboidratos);
-        console.log(totalGorduras);
-        console.log(totalProteinas);
-        console.log(totalQuantidade);
-        console.log(totalCalorias);
-
+        
         try {
           const token_access = await AsyncStorage.getItem("jwt");
           try {

@@ -82,7 +82,7 @@ export default function WeeklyCountScreen() {
                 <Animatable.Text
                   animation="fadeIn" 
                   style={styles.message3}
-                  duration={16000}
+                  duration={10000}
                   >{message3}
                 </Animatable.Text>
                 <Button title="Fechar" onPress={() => setModalVisible(false)} />
