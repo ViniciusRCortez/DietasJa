@@ -2,6 +2,7 @@ import {React, useState, useEffect} from "react";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+
 import EditarPerfil from "../EditarPerfil";
 import EditarLogin from "../EditarLogin";
 import Login from "../Login"
