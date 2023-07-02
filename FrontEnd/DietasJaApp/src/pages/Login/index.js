@@ -8,14 +8,7 @@ import axios from 'axios';
 import { API_BASE_URL } from "../../config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-import axios from 'axios';
-import { API_BASE_URL } from "../../config";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 export default function Login({ handleLogin }) {
-
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -109,22 +102,6 @@ export default function Login({ handleLogin }) {
           keyboardType="numeric"
           secureTextEntry
         />
-        <Text style={styles.title}>Senha</Text>
-        <TextInput
-          style={styles.estiloinput}
-          onChangeText={setSenha}
-          value={senha}
-          placeholder="Digite sua senha"
-          keyboardType="numeric"
-          secureTextEntry
-        />
-
-        <TouchableOpacity
-          style={styles.estilobotaoLogin}
-          onPress={validationEntrar}
-        >
-          <Text style={styles.textoBotao}>{textButton}</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.estilobotaoLogin}
           onPress={validationEntrar}

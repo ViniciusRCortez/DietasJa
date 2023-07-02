@@ -15,10 +15,6 @@ const styles = StyleSheet.create(
       marginBottom: 20,
       borderRadius: 8,
       alignItems: "center",
-      shadowColor: '#fff',
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 30,
     },
     mensagem: {
       backgroundColor: '#01C099',
