@@ -22,22 +22,16 @@ export default function CadastrarPrato() {
     }, [load, navigation])
 
   const adicionarPrato = () => {
-    if (
-      nome.trim() !== "" &&
-      gorduras.trim() !== "" &&
-      proteinas.trim() !== "" &&
-      carboidratos.trim() !== "" &&
-	  quantidade.trim() !== ""
-    ) {
-		if (validarCaixas()) {
-            enviarSolicitacaoPOST();
-		}
-    } else {
-		Alert.alert("Erro", "Preencha todos os campos para prosseguir.");
-	}
+    if (validarCaixas()) {
+        enviarSolicitacaoPOST();
+    }
   };
 
   	function validarCaixas() {
+        if (nome.trim() == "") {
+            Alert.alert("Erro", "O nome do alimento é um campo obrigatório.");
+            return false;
+        }
         if (Number.isInteger(parseInt(quantidade, 10))) {
             var quantidadeInt = parseInt(quantidade, 10);
             if (quantidadeInt <= 0) {
@@ -48,9 +42,9 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo quantidade deve ser numérico.");
 			return false;
         }
-        if (Number.isInteger(parseInt(carboidratos, 10))) {
-            var carboidratosInt = parseInt(carboidratos, 10);
-            if (carboidratosInt < 0) {
+        if (Number.isInteger(parseFloat(carboidratos))) {
+            var carboidratosFloat = parseFloat(carboidratos);
+            if (carboidratosFloat < 0) {
                 Alert.alert("Erro", "O campo carboidratos deve ser maior ou igual a zero.");
 				return false;
             }
@@ -58,9 +52,9 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo carboidratos deve ser numérico.");
 			return false;
 		}
-        if (Number.isInteger(parseInt(proteinas, 10))) {
-            var proteinasInt = parseInt(proteinas, 10);
-            if (proteinasInt < 0) {
+        if (Number.isInteger(parseFloat(proteinas))) {
+            var proteinasFloat = parseFloat(proteinas);
+            if (proteinasFloat < 0) {
                 Alert.alert("Erro", "O campo proteínas deve ser maior ou igual a zero.");
 				return false;
             }
@@ -68,14 +62,14 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo proteínas deve ser numérico.");
 			return false;
         }
-		if (Number.isInteger(parseInt(gorduras, 10))) {
-            var gordurasInt = parseInt(gorduras, 10);
-            if (gordurasInt < 0) {
+		if (Number.isInteger(parseFloat(gorduras))) {
+            var gordurasFloat = parseFloat(gorduras);
+            if (gordurasFloat < 0) {
                 Alert.alert("Erro", "O campo gorduras deve ser positivo.");
 				return false;
             }
         } else {
-            Alert.alert("Erro", "O campo gorduras deve ser maior ou igual a zero.");
+            Alert.alert("Erro", "O campo gorduras deve ser numérico.");
 			return false;
         }
 		return true;
@@ -106,7 +100,7 @@ export default function CadastrarPrato() {
     }
 
     async function enviarSolicitacaoPOST() {
-        var calorias = 4000 * (proteinas + carboidratos) + 9000*gorduras;
+        var calorias = 4000 * (parseFloat(proteinas) + parseFloat(carboidratos)) + 9000*parseFloat(gorduras);
         const token_access = await AsyncStorage.getItem("jwt");
         axios.post(`${API_BASE_URL}/alimentos/`,
         { nome: nome,
@@ -120,14 +114,15 @@ export default function CadastrarPrato() {
         {headers: {Authorization: token_access}},
         {validateStatus: () => true},
         )
-        .then(() => {
+        .then((resposta) => {
             const novoPrato = {
-                nome,
+                id: resposta.data["id"], // Pega o id do JSON retornado pela requisição que deu certo
+                nome: nome,
                 quantidade: quantidade,
                 kcal: calorias/1000,
-                gorduras: parseInt(gorduras),
-                proteinas: parseInt(proteinas),
-                carboidratos: parseInt(carboidratos),
+                gorduras: gorduras,
+                proteinas: proteinas,
+                carboidratos: carboidratos,
               };
             setListaPratos([...listaPratos, novoPrato]); // Atualizando a listagem de pratos (alimentos cadastrados)
 			setNome("");

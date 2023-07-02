@@ -45,15 +45,14 @@ const styles = StyleSheet.create(
             width: width * 0.6,
             height: height * 0.065,
             justifyContent: "center",
-            alignItems: "center",
             borderRadius: 50,
             backgroundColor: "#f6f6f6",
             paddingBottom: 0,
             paddingTop: 0,
             marginTop: 5,
             alignSelf: 'flex-end',
-            paddingLeft: widthc /0.3,
             fontSize: 20,
+            textAlign: "center",
           },
           
         textoTitulo:{
