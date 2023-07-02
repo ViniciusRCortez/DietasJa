@@ -108,7 +108,7 @@ export default function EditarMetas(){
     return(
         <View style = {styles.CaixaTotalmente}>
             <View style = {styles.CaixaTotalmente}>
-
+            <Text style = {styles.textoSub}>Editar Meta</Text>
             <View style = {styles.CaixaTotal}>
                 <View style={styles.CaixaInfoMenorContainer}>
                     <Text style = {styles.estiloTexto}>Meta Atual:   </Text>

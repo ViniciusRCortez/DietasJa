@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   imagemestilo: {
     width: width * 0.185,
-    height: height * 0.051,
+    height: height * 0.052,
     left: width * 0.11,
     bottom: width * 0.008,
   },

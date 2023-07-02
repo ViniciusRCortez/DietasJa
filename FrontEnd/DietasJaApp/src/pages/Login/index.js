@@ -117,12 +117,6 @@ export default function Login({ handleLogin }) {
         >
           <Text style={styles.textoBotaoCadastro}>Não possui uma conta? Cadastre-se</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.estilobotaoCadastro}
-          onPress={() => navigation.navigate('Cadastro')}
-        >
-          <Text style={styles.textoBotaoCadastro}>Não possui uma conta? Cadastre-se</Text>
-        </TouchableOpacity>
 
       </Animatable.View>
     </View>
