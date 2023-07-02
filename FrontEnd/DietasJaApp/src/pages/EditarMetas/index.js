@@ -18,13 +18,6 @@ export default function EditarMetas(){
         enviarSolicitacaoGET();
     }, [])
 
-    if (isLoading) {
-        return (
-          <View style={styles.container}>
-            <ActivityIndicator size="large" color="#38acbe" />
-          </View>
-    );}
-
     const handleConcluir = () => {
         if (Number.isInteger(parseInt(novaMeta, 10))) {
             var novaMetaInt = parseInt(novaMeta, 10);
@@ -104,6 +97,13 @@ export default function EditarMetas(){
     const handleVoltar = () => {
         navigation.goBack();
     };
+
+    if (isLoading) {
+        return (
+          <View style={styles.container}>
+            <ActivityIndicator size="large" color="#38acbe" />
+          </View>
+    );}
 
     return(
         <View style = {styles.CaixaTotalmente}>
