@@ -17,8 +17,9 @@ export default function TelaInicial() {
       const [gordura, setGordura] = useState(0);
       const [resto, setResto] = useState(0);
       const [isLoading, setIsLoading] = useState(true);
+      const navigation = useNavigation();
 
-      useEffect(() => { // useEffect: executa após a renderização dos componentes
+    useEffect(() => { // useEffect: executa após a renderização dos componentes
           enviarSolicitacaoGET();
           navigation.addListener('focus', enviarSolicitacaoGET);
           }, [navigation]);
@@ -115,35 +116,7 @@ export default function TelaInicial() {
           </View>
         );
       }
-    
 
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    getUserInfo();
-  }, [])
-
-  async function getUserInfo(){
-    try {
-      const token = await AsyncStorage.getItem('jwt')
-      const response = await axios.get(`${API_BASE_URL}/user-metrics/`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      if (response.status == 200){
-        const nome = response.data.nome
-        setNome(nome)
-      } else{
-        console.log(response.data)
-      }
-    } catch (error) {
-      if(error.response.status == 401){
-        navigation.navigate(Login)
-    }
-      console.log(error)
-    }
-  }
   return (
     <View style={styles.container}>
       <View style = {styles.containerTexto}>
