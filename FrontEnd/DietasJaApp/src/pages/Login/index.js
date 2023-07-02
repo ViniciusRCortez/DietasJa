@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
@@ -63,8 +63,13 @@ export default function Login({ handleLogin }) {
 
             }
         } catch (error) {
+          if (error.response.status === 401) {
+            Alert.alert("Erro", "Usuário e/ou senha incorretos.");
+          }
+          else{
             console.error(error);
-            if (error.response.status === 403) {
+          }
+          if (error.response.status === 403) {
                 // Erro de autenticação - 403 Forbidden
             
                 // Exibir a mensagem de erro retornada pelo servidor
