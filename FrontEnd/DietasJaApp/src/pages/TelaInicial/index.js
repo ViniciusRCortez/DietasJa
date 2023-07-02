@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Alert} from 'react-native';
 import styles from "./styles"
 import * as Animatable from 'react-native-animatable';
 import axios from 'axios';
@@ -51,7 +51,16 @@ export default function TelaInicial() {
           const qtdCalorias = ((respostameta.data[0]['qtd_calorias'])/1000);
           setMeta(qtdCalorias);
           console.log('Executou GET, meta:', qtdCalorias);
+          
         } catch (error) {
+          console.log("print")
+          if (error.response?.status == undefined){
+            console.log("Usuario nao tem meta");
+            Alert.alert("Bem vindo(a)!", "Você ainda não possui uma meta cadastrada!\nCadastre-a em editar Meta no menu lateral. ");
+          } 
+          else{
+            console.log("usuario ja tem meta");
+          }
           console.log('Erro na solicitação respostameta:', error);
           // Lógica de tratamento de erro
         }

@@ -106,7 +106,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
           }
         } catch (error) {
           console.log('Erro na solicitação PATCH:', error);
-          Alert.alert("Erro", "Insira novamente a refeição.");
+          Alert.alert("Erro", "Insira novamente a refeição. Verifique se possui uma meta cadastrada.");
           limparSelecao();
         }
       } catch (error) {
@@ -241,7 +241,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
               renderItem={({ item }) => (
                 <List.Item
                   title={item.nome}
-                  description={`${item.porcao}g - ${item.qtd_calorias} cal`}
+                  description={`${item.porcao}g - ${item.qtd_calorias/1000} kcal`}
                   style={[
                     styles.listItem,
                     item.selecionado && styles.listItemSelecionado, // Adiciona um estilo diferente se o alimento estiver selecionado
@@ -287,7 +287,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
                   renderItem={({ item }) => (
                     <List.Item
                       title={item.nome}
-                      description={`${item.porcao}g - ${item.qtd_calorias} cal`}
+                      description={`${item.porcao}g - ${item.qtd_calorias/1000} kcal`}
                       style={[styles.listItem, styles.listItemSelecionado]}
                       titleStyle={styles.listItemTitle}
                       descriptionStyle={styles.listItemDescription}
