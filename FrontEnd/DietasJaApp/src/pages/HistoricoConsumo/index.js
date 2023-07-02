@@ -81,8 +81,10 @@ export default function WeeklyCountScreen() {
 				console.error(erro);
 			}
 			console.log("Erro ao executar GET da meta diária: ", erro);
-			setIsLoading(false);
 		})
+    .finally(() => {
+      setIsLoading(false);
+    })
 	}
 
 	async function enviarSolicitacaoGETMetaGamificada() {
@@ -104,8 +106,9 @@ export default function WeeklyCountScreen() {
 		.catch((erro) => {
 			console.log("Erro ao executar GET: ", erro);
 		})
-		setIsLoading(false);
-	}
+    .finally(() => {
+      setIsLoading(false);
+    })}
 
 	// Função recebe uma data no formato "YYYY-MM-DD" (string) e retorna data no formato DD/MM/AAAA (dia da semana) (string)
 	function tratarData(data) {
