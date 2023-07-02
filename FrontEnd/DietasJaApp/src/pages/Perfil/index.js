@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from "react";
-import { Text, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import { Text, View, TouchableOpacity, Alert, ActivityIndicator, ScrollView, SafeAreaView } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
@@ -104,9 +104,9 @@ export default function Perfil(){
       
     return(
 
-        <View style = {styles.CaixaTotalmente}>
+        <SafeAreaView style = {styles.CaixaTotalmente}>
           <Text style = {styles.textoSub}>Minha Conta</Text>
-            <View style = {styles.CaixaTotal}>
+            <ScrollView style = {styles.CaixaTotal}>
                 <View style={styles.CaixaInfoMenorContainer}>
                     <Text style = {styles.estiloTexto}>Nome:     </Text>
                     <View style={styles.CaixaInfoMenor}>
@@ -154,7 +154,7 @@ export default function Perfil(){
                 <TouchableOpacity style = {styles.estilobotaoVoltar} onPress={handleVoltar}>
                     <Text style = {styles.textoBotaoVolta}>Voltar</Text>
                 </TouchableOpacity>
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

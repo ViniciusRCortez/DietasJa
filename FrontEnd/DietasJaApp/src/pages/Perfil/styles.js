@@ -11,14 +11,13 @@ const styles = StyleSheet.create(
         },
 
         CaixaTotal:{
-            flex:1,
+            flex:2,
             backgroundColor:"#fff",
             borderTopLeftRadius: 35,
             borderTopRightRadius: 35,
             paddingStart: "6%",
             paddingEnd: "6%",
             marginTop: height * 0.02,
-            alignItems: 'center',
         },
 
         form:{
@@ -76,12 +75,15 @@ const styles = StyleSheet.create(
             backgroundColor:"#38a69d",
             paddingVertical: 8,
             marginTop: 25,
+            alignSelf: "center",
         },
 
         estilobotaoVoltar:{
             alignItems: "center",
             justifyContent: "center",
             marginTop: 10,
+            alignSelf: "center",
+            marginBottom: height * 0.05,
         },
 
         textoBotao:{
