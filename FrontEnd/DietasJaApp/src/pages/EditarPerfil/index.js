@@ -1,10 +1,17 @@
-import React, {useState} from "react";
+import {React, useState, useEffect}  from "react";
 import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
+import Login from "../Login"
 
-export default function EditarPerfil(){
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export default function EditarPerfil({handleLogOut}){
+
+const [reload, setReload] = useState(false); // Estado para recarregar a página
 
 const [nome, setNome] = useState('');
 const [peso, setPeso] = useState('');
@@ -43,6 +50,54 @@ const items = [
     {label: 'Masculino', value: 'masculino'},
     {label: 'Feminino', value: 'feminino'},
 ]
+
+  async function PatchInfos(nome, peso, altura, idade, valoratual){
+    ValidarInformacoes(nome, peso, altura, idade, valoratual)
+
+    try {
+        const token = await AsyncStorage.getItem('jwt')
+
+        if (valoratual == "masculino"){
+            var genero = "M"
+        } else if (valoratual == "feminino"){
+            var genero = "F"
+        }
+
+        const response = await axios.patch(`${API_BASE_URL}/user-metrics/`,
+        {
+            nome: nome,
+            genero: genero,
+            altura: altura/100,
+            peso: peso/1000,
+            idade: idade,
+        },
+        {
+        headers: {
+            Authorization: token,
+        },
+        })
+      if (response.status == 200){
+        console.log(response.data)
+        setReload(true)
+      } else{
+        console.log(response.data)
+      }
+    } catch (error) {
+      if(error.response.status == 401){
+        navigation.navigate(Login)
+    }
+      console.log(error)
+    }
+}
+
+useEffect(() => {
+    if (reload) {
+      // Recarrega a página
+      setReload(false); // Reseta o estado de recarregar
+      getUserInfo(); // Chama a função para obter as informações atualizadas
+    }
+  }, [reload]);
+
 
 const handleVoltar = () => {
     navigation.goBack();
@@ -99,21 +154,21 @@ const handleVoltar = () => {
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Altura: </Text> 
+                <Text style = {styles.estiloTexto}>Altura(cm): </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={altura}
                  onChangeText={setAltura}
-                 placeholder = "Ex: 1.80"
+                 placeholder = "Ex: 180cm = 1.80m"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Peso:   </Text> 
+                <Text style = {styles.estiloTexto}>Peso(g):   </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 84.4"
+                 placeholder = "Ex: 10000g = 10Kg"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
@@ -121,7 +176,7 @@ const handleVoltar = () => {
                 <TouchableOpacity
                 style = {styles.estilobotaoSalvar}
                 onPress = {() => {
-                    ValidarInformacoes(nome, peso, altura, idade, valoratual)}}
+                    PatchInfos(nome, peso, altura, idade, valoratual)}}
                 >
                 <Text style = {styles.textoBotao}>Salvar Alterações</Text>
                 </TouchableOpacity>

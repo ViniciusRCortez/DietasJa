@@ -6,6 +6,8 @@ import * as Animatable from 'react-native-animatable';
 import axios from 'axios';
 import { API_BASE_URL } from "../../config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import Login from "../Login"
 
 export default function TelaInicial() {
   
@@ -16,6 +18,8 @@ export default function TelaInicial() {
   const proteina = 400;
   const gordura = 1000;
   const resto = (meta - consumo);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     getUserInfo();
@@ -36,6 +40,9 @@ export default function TelaInicial() {
         console.log(response.data)
       }
     } catch (error) {
+      if(error.response.status == 401){
+        navigation.navigate(Login)
+    }
       console.log(error)
     }
   }
