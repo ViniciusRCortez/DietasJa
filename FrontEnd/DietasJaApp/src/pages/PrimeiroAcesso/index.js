@@ -167,5 +167,6 @@ async function cadastro(nome, valoratual, idade, altura, peso){
 
             </ScrollView>
         </SafeAreaView>
+      
     );
 }

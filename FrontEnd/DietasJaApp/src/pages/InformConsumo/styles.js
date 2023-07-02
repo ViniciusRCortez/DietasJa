@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 16,
     backgroundColor: '#01C099',
+    
   },
   buttonLabel: {
     color: '#FFFFFF',

@@ -12,7 +12,10 @@ const styles = StyleSheet.create(
 
         CaixaTotal:{
             flex:2,
+            flex:2,
             backgroundColor:"#fff",
+            borderTopLeftRadius: 35,
+            borderTopRightRadius: 35,
             borderTopLeftRadius: 35,
             borderTopRightRadius: 35,
             paddingStart: "6%",
@@ -68,7 +71,7 @@ const styles = StyleSheet.create(
           
 
         estilobotao:{
-            borderRadius:4,
+            borderRadius:410,
             alignItems: "center",
             justifyContent: "center",
             width: width * 0.7,

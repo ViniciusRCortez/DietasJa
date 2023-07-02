@@ -33,6 +33,7 @@ const styles = StyleSheet.create(
             borderTopRightRadius:25,
             paddingStart:"6%",
             paddingEnd:"6%",
+            flex:2,
         },
         Title:{
             fontSize:20,

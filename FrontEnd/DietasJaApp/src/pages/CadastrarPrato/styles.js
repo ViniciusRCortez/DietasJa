@@ -120,6 +120,7 @@ const styles = StyleSheet.create(
           justifyContent: 'center',
         },
         listaContainer: {
+          paddingTop: 10,
           flex: 1,
           maxHeight: 165,
         },
@@ -128,7 +129,7 @@ const styles = StyleSheet.create(
           height: height * 0.02,
         },
         itemContainer: {
-          padding: 5,
+          padding: 6,
           borderBottomWidth: 1,
           borderBottomColor: 'gray',
         },
@@ -144,9 +145,9 @@ const styles = StyleSheet.create(
 
         deleteButton: {
           backgroundColor: "red",
-          padding: 8,
+          padding: 3,
           borderRadius: 4,
-          marginTop: 8,
+          marginTop: 10,
         },
         deleteButtonText: {
           color: "white",

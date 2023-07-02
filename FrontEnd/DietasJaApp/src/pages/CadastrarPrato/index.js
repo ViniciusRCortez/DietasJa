@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, FlatList, Alert } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,22 +20,27 @@ export default function CadastrarPrato() {
     ) {
       const novoPrato = {
         nome,
+        quantidade: parseInt(quantidade),
         gorduras: parseInt(gorduras),
         proteinas: parseInt(proteinas),
         carboidratos: parseInt(carboidratos),
       };
+      Alert.alert("Sucesso", "Alimento cadastrado com sucesso!");
       setListaPratos([...listaPratos, novoPrato]);
       setNome("");
       setGorduras("");
       setProteinas("");
       setCarboidratos("");
       setQuantidade("");
-    }  
+    } else {
+      Alert.alert("Erro", "Preencha todos os campos.");
+    }
   };
 
   const handleDeleteItem = (item) => {
     const updatedList = listaPratos.filter((prato) => prato !== item);
     setListaPratos(updatedList);
+    Alert.alert("Sucesso", "Alimento excluído com sucesso!");
   };
   
   const navigation = useNavigation();

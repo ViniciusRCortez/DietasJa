@@ -3,13 +3,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
-import { View, TouchableOpacity, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Image, Dimensions, SafeAreaView} from 'react-native';
 
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
 import EditarMetas from "../pages/EditarMetas";
 import PerfilScreen from "../pages/Perfil";
 import CadastrarPrato from "../pages/CadastrarPrato";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,13 +20,12 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   const openDrawer = () => {
     navigation.openDrawer();
   };
-
+   
+  // Lógica para realizar o logout com a conexão com o backend
   const ChamarSaida = async () => {
     try {
-      // Lógica para realizar o logout com a conexão com o backend
-      // Por exemplo, enviar uma solicitação para invalidar o token de autenticação no servidor
-      
-      // Aguarde a resposta do backend
+        // Limpar o token de acesso armazenado localmente (exemplo usando AsyncStorage)
+      await AsyncStorage.removeItem("jwt");
 
       // Se a resposta for bem-sucedida, chame a função handleLogOut para atualizar o estado de login
       handleLogOut();
@@ -37,7 +37,7 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={openDrawer}>
         <Feather name="menu" size={30} color="black" />
       </TouchableOpacity>
@@ -53,7 +53,7 @@ const CustomDrawerHeader = ({ navigation, handleLogOut }) => {
             <SimpleLineIcons name="logout" size={28} color="black" />
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: width * 0.04,
     paddingVertical: height * 0.01,
-    paddingTop: height * 0.035,
+    paddingTop: height * 0.039,
     justifyContent: "center",
   },
   textContainer: {
