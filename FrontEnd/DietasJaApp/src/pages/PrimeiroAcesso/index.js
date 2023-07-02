@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, Alert, ScrollView, SafeAreaView} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from '@react-navigation/native';
 import styles from "./styles";
@@ -21,33 +21,29 @@ export default function PrimeiroAcesso(){
 
     const navigation = useNavigation();
 
-function ValidarInformacoes(nome, peso, altura, idade, meta, valoratual) {
+function ValidarInformacoes(nome, valoratual, idade, altura, peso) {
     if (nome.trim() === "") {
-      alert("Por favor, informe o nome.");
+      Alert.alert("Erro", "Por favor, informe o nome.");
       return;
     }
     if (valoratual === null) {
-      alert("Por favor, escolha o sexo.");
+      Alert.alert("Erro", "Por favor, escolha o sexo.");
       return;
     }
     if (idade.trim() === "") {
-        alert("Por favor, informe a idade.");
+        Alert.alert("Erro", "Por favor, informe a idade.");
         return;
     }
     if (altura.trim() === "") {
-        alert("Por favor, informe a altura.");
+        Alert.alert("Erro", "Por favor, informe a altura.");
         return;
     }
     if (peso.trim() === "") {
-        alert("Por favor, informe o peso.");
-        return;
-    }
-    if (meta.trim() === "") {
-        alert("Por favor, defina uma meta.");
+        Alert.alert("Erro", "Por favor, informe o peso.");
         return;
     }
 
-    cadastro(nome, peso, altura, idade, valoratual)
+    cadastro(nome, valoratual, idade,altura, peso)
     navigation.navigate(Login)
 }
 
@@ -56,7 +52,7 @@ const items = [
     {label: 'Feminino', value: 'feminino'},
 ]
 
-async function cadastro(nome, peso, altura, idade, valoratual){
+async function cadastro(nome, valoratual, idade, altura, peso){
     try {
 
       const userId = await AsyncStorage.getItem('userId')
@@ -71,7 +67,7 @@ async function cadastro(nome, peso, altura, idade, valoratual){
         nome: nome,
         genero: genero,
         altura: altura/100,
-        peso: peso/1000,
+        peso: peso,
         idade: idade,
         usuario: userId
       })
@@ -91,7 +87,7 @@ async function cadastro(nome, peso, altura, idade, valoratual){
 }
 
     return(
-        <View style = {styles.CaixaTotal}>
+        <SafeAreaView style = {styles.CaixaTotal}>
 
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
@@ -101,7 +97,7 @@ async function cadastro(nome, peso, altura, idade, valoratual){
 
             <Text style = {styles.textoSub}>Primeiro Acesso</Text>
 
-            <View style = {styles.CaixaForm}>
+            <ScrollView style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
                 <TextInput 
                  style = {styles.estiloinput}
@@ -127,6 +123,7 @@ async function cadastro(nome, peso, altura, idade, valoratual){
                     textStyle={styles.dropDownPickerText}
                     arrowColor={styles.dropDownPickerArrow.color}
                     arrowSize={styles.dropDownPickerArrow.fontSize}
+                    listMode="SCROLLVIEW"
                 />
                 </View>
 
@@ -151,32 +148,24 @@ async function cadastro(nome, peso, altura, idade, valoratual){
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Peso(g):  </Text> 
+                <Text style = {styles.estiloTexto}>Peso(Kg):   </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 10000g = 10Kg"
+                 placeholder = "Ex: 60Kg"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
-                
-                <Text style = {styles.estiloTexto}> Qual sua meta diária de calorias?</Text>
-                <TextInput style = {styles.estiloinput}  
-                value = {meta}
-                onChangeText={setMeta}
-                placeholder="Ex: 5000 (Kcal)"
-                keyboardType = "numeric"
-                />
 
                 <TouchableOpacity
                 style = {styles.estilobotaoAvançar}
                 onPress = {() => {
-                    ValidarInformacoes(nome, peso, altura, idade, meta, valoratual)}}
+                    ValidarInformacoes(nome, valoratual, idade, altura, peso)}}
                 >
                 <Text style = {styles.textoBotao}>Avançar</Text>
                 </TouchableOpacity>
 
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

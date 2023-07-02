@@ -10,6 +10,7 @@ const styles = StyleSheet.create(
         CaixaTotalmente:{
             backgroundColor:"#38a69d",
             flexDirection:"column",
+            flex:1,
         },
         containerheader:{
             marginTop:"20%",
@@ -26,6 +27,7 @@ const styles = StyleSheet.create(
             color:"#FFFFFF",
         },
         CaixaCadastro:{
+            flex:2,
             backgroundColor:"#FFFFFF",
             borderTopLeftRadius:25,
             borderTopRightRadius:25,

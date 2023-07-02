@@ -14,13 +14,12 @@ export default function TelaCadastro(){
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [nome, setNome] = useState('');
     const navigation = useNavigation();
 
 
     function ValidationCadastro(){
-        if (ValidationInformacao(email,senha,nome)){
-            cadastro(email, senha, nome)
+        if (ValidationInformacao(email,senha)){
+            cadastro(email, senha)
             //handleVoltar();
             return;
         }
@@ -32,15 +31,15 @@ export default function TelaCadastro(){
         navigation.goBack();
     };
     
-    function ValidationInformacao(email,senha,nome){
-        if (email.length === 0 || senha.length === 0 || nome.length === 0) {
+    function ValidationInformacao(email,senha){
+        if (email.length === 0 || senha.length === 0) {
            return false;
         }
         return true;
         
     }
 
-    async function cadastro(email,senha,nome){
+    async function cadastro(email,senha){
         try {
           const response = await axios.post(`${API_BASE_URL}/sign-in/`, {
             username: email,
@@ -56,6 +55,9 @@ export default function TelaCadastro(){
           }
         } catch (error) {
           console.log(error)
+          if (error.response.status == 400){
+            Alert.alert("Erro", "Nome de usuário já cadastrado.")
+          }
         }
     }
 
@@ -66,17 +68,10 @@ export default function TelaCadastro(){
         </Animatable.View> 
 
         <Animatable.View animation="fadeInUp" style={styles.CaixaCadastro}>
-            <Text style = {styles.Title}>Nome </Text>
-            <TextInput style={styles.Input}
-             placeholder="Digite seu nome" 
-             keyboardType = "ascii-capable"
-             value = {nome}
-             onChangeText={setNome}>
-            </TextInput>
 
-            <Text style = {styles.Title}>Email </Text>
+            <Text style = {styles.Title}>Nome de Usuário </Text>
             <TextInput style={styles.Input}
-             placeholder="Digite seu email" 
+             placeholder="Digite seu nome de usuário" 
              keyboardType = "ascii-capable"
              value = {email}
              onChangeText={setEmail}>
