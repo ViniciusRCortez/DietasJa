@@ -48,7 +48,6 @@ export default function EditarMetas(){
             qtdCalorias = qtdCalorias/1000;  // Convertendo para kcal (unidade do front)
             setMeta(qtdCalorias); // Caixa de meta atual recebe o valor recebido da requisição GET
             console.log('Executou GET, qtd_calorias: ', qtdCalorias);
-            setIsLoading(false);
         }, {validateStatus: () => true},)
         .catch(function (erro) {
             setMeta(0);
@@ -58,6 +57,8 @@ export default function EditarMetas(){
                 console.error(erro);
             }            
             console.log('Erro ao executar GET: ', erro);
+        })
+        .finally(() => {
             setIsLoading(false);
         })
     }
