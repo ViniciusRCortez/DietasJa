@@ -45,15 +45,14 @@ const styles = StyleSheet.create(
             width: width * 0.6,
             height: height * 0.065,
             justifyContent: "center",
-            alignItems: "center",
             borderRadius: 50,
             backgroundColor: "#f6f6f6",
             paddingBottom: 0,
             paddingTop: 0,
             marginTop: 5,
             alignSelf: 'flex-end',
-            paddingLeft: widthc /0.3,
             fontSize: 20,
+            textAlign: "center",
           },
           
         textoTitulo:{
@@ -123,6 +122,8 @@ const styles = StyleSheet.create(
           paddingTop: 10,
           flex: 1,
           maxHeight: 165,
+          minHeight: 0.20 * height,
+          minWidth: 0.8 * width,
         },
         flatList: {
           flex: 1,
@@ -137,7 +138,11 @@ const styles = StyleSheet.create(
           fontSize: 16,
           fontWeight: 'bold',
         },
-
+        tituloLista: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginTop: 15,
+        },
         itemDescricao: {
           fontSize: 14,
           color: 'gray',
@@ -147,7 +152,9 @@ const styles = StyleSheet.create(
           backgroundColor: "red",
           padding: 3,
           borderRadius: 4,
-          marginTop: 10,
+          marginTop: 8,
+          minWidth: 0.25 * width,
+          alignSelf: "center"
         },
         deleteButtonText: {
           color: "white",
