@@ -90,12 +90,13 @@ export default function CadastrarPrato() {
             // Atualiza a lista de pratos
             setListaPratos(pratos);
             console.log('GET de alimento executado com sucesso');
-            setIsLoading(false);
         })
         .catch(function (erro) {
             console.log('Erro ao executar GET de alimento: ', erro);
             setListaPratos([]); // Esvazia a lista de pratos
-            setIsLoading(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
         })
     }
 
