@@ -44,15 +44,14 @@ export default function EditarMetas(){
         const token_access = await AsyncStorage.getItem("jwt");
         axios.get(`${API_BASE_URL}/meta/`, {headers: {Authorization: token_access}})
         .then((resposta) => {
-            var qtdCalorias = parseFloat(resposta.data[0]['qtd_calorias']); // Meta recebida pelo método GET (em cal)
-            qtdCalorias = qtdCalorias/1000;  // Convertendo para kcal (unidade do front)
+            const qtdCalorias = parseFloat(resposta.data[0]['qtd_calorias'])/1000; // Meta recebida pelo método GET (em cal), converte para kcal
             setMeta(qtdCalorias); // Caixa de meta atual recebe o valor recebido da requisição GET
             console.log('Executou GET, qtd_calorias: ', qtdCalorias);
         }, {validateStatus: () => true},)
         .catch(function (erro) {
             setMeta(0);
             if (erro.response?.status == undefined) { // Erro 204 = undefined
-                Alert.alert("Erro", "Você não possui uma meta diária cadastrada. Cadastre-a e tente novamente.");
+                Alert.alert("Atenção", "Você não possui uma meta diária cadastrada.\nInforme uma nova meta e pressione Concluir para cadastrá-la.");
             } else {
                 console.error(erro);
             }            
@@ -62,6 +61,22 @@ export default function EditarMetas(){
             setIsLoading(false);
         })
     }
+
+    async function enviarSolicitacaoPOST(meta){
+        const token_access = await AsyncStorage.getItem("jwt");
+        axios.post(`${API_BASE_URL}/meta/`, {qtd_calorias: meta}, {headers: {Authorization: token_access,}})
+        .then((resposta) => {
+            setMeta(meta/1000) // Atualiza a caixa da meta atual (divide por 100, pois front considera kcal e back considera cal)
+            setNovaMeta('');       // Limpa caixa de meta antiga
+            console.log('POST de meta diária executado com sucesso');
+            Alert.alert("Sucesso", "Sua meta diária foi cadastrada com sucesso!");
+        }, {validateStatus: () => true},)
+        .catch((erro) => {
+            setMeta(0);
+            console.error(erro);
+            console.log('Erro ao executar POST de meta diária: ', erro);
+        })
+    }    
     
     async function enviarSolicitacaoPATCH(novaMeta) {
         const token_access = await AsyncStorage.getItem("jwt");
@@ -75,7 +90,8 @@ export default function EditarMetas(){
         .catch((erro) => {
             setMeta(0);
             if (erro.response?.status == 400) { // Erro 400 = bad request gerada por patch em meta que não existe
-                Alert.alert("Erro", "Você não possui uma meta diária cadastrada. Cadastre-a e tente novamente.");
+                // Chama a função POST para cadastrar a meta definida pelo usuário
+                enviarSolicitacaoPOST(novaMeta);
             } else {
                 console.error(erro);
             }
