@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,18 +18,15 @@ export default function Perfil(){
     const [idade, setIdade] = useState('')
     const [altura, setAltura] = useState('')
     const [peso, setPeso] = useState('')
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [reload, setReload] = useState(false)
 
     const navigation = useNavigation();
 
-    useEffect(() => {
-        if (reload) {
-            // Recarrega a página
-            setReload(false); // Reseta o estado de recarregar
-            getUserInfo();
-          }
-      }, [reload])
+      useEffect(() => { // useEffect: executa após a renderização dos componentes
+        getUserInfo();
+        navigation.addListener('focus', getUserInfo);
+        }, [navigation]);
     
       async function getUserInfo(){
         try {
@@ -48,7 +45,7 @@ export default function Perfil(){
             setNome(nome)
             setSexo(sexo)
             setIdade(idade)
-            setAltura(altura)
+            setAltura(altura*100)
             setPeso(peso)
           } else{
             console.log(response.data)
@@ -58,6 +55,9 @@ export default function Perfil(){
                 navigation.navigate(Login)
             }
           console.log(error)
+        }
+        finally {
+          setIsLoading(false);
         }
     }
 
@@ -92,11 +92,20 @@ export default function Perfil(){
     const handleAlterarCadastro = () => {
         navigation.navigate('EditarLogin')
     }
+
+     // Chamar o carregamento da tela
+     if (isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#38acbe" />
+        </View>
+      );
+    }
       
     return(
 
         <View style = {styles.CaixaTotalmente}>
-
+          <Text style = {styles.textoSub}>Minha Conta</Text>
             <View style = {styles.CaixaTotal}>
                 <View style={styles.CaixaInfoMenorContainer}>
                     <Text style = {styles.estiloTexto}>Nome:     </Text>
@@ -122,7 +131,7 @@ export default function Perfil(){
                 <View style = {styles.CaixaInfoMenorContainer}> 
                     <Text style = {styles.estiloTexto}>Altura:     </Text> 
                     <View style={styles.CaixaInfoMenor}>
-                        <Text style={styles.textoInfo}>{altura} m</Text>
+                        <Text style={styles.textoInfo}>{altura} cm</Text>
                     </View>
                 </View>
 
@@ -140,10 +149,6 @@ export default function Perfil(){
 
                 <TouchableOpacity style = {styles.estilobotao} onPress={deleteUser}>
                     <Text style = {styles.textoBotao}>Deletar Conta</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.estilobotaoVoltar} onPress={() => setReload(true)}>
-                    <Text style = {styles.textoBotaoVolta}>Recarregar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.estilobotaoVoltar} onPress={handleVoltar}>

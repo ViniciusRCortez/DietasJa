@@ -1,5 +1,5 @@
 import {React, useState, useEffect}  from "react";
-import {Text, TextInput, View, TouchableOpacity, Image, Alert} from "react-native";
+import {Text, TextInput, View, TouchableOpacity, Image, Alert, ScrollView, SafeAreaView} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
@@ -68,7 +68,7 @@ const items = [
             nome: nome,
             genero: genero,
             altura: altura/100,
-            peso: peso/1000,
+            peso: peso,
             idade: idade,
         },
         {
@@ -78,6 +78,7 @@ const items = [
         })
       if (response.status == 200){
         console.log(response.data)
+        Alert.alert("Sucesso", "Suas alterações foram salvas com sucesso.")
         setReload(true)
       } else{
         console.log(response.data)
@@ -104,7 +105,7 @@ const handleVoltar = () => {
 };
 
     return(
-        <View style = {styles.CaixaTotal}>
+        <SafeAreaView style = {styles.CaixaTotal}>
             
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
@@ -114,7 +115,7 @@ const handleVoltar = () => {
 
             <Text style = {styles.textoSub}>Editar Perfil</Text>
 
-            <View style = {styles.CaixaForm}>
+            <ScrollView style = {styles.CaixaForm}>
                 <Text style = {styles.estiloTexto}> Nome:</Text>
                 <TextInput 
                  style = {styles.estiloinput}
@@ -122,7 +123,7 @@ const handleVoltar = () => {
                  onChangeText={setNome}></TextInput>
 
                 <View style={styles.sexoContainer}>
-                <Text style={styles.estiloTexto}>Sexo:   </Text>
+                <Text style={styles.estiloTexto}>Sexo:  </Text>
                 
                 <DropDownPicker
                     items={items}
@@ -140,6 +141,7 @@ const handleVoltar = () => {
                     textStyle={styles.dropDownPickerText}
                     arrowColor={styles.dropDownPickerArrow.color}
                     arrowSize={styles.dropDownPickerArrow.fontSize}
+                    listMode = "SCROLLVIEW"
                 />
                 </View>
 
@@ -164,11 +166,11 @@ const handleVoltar = () => {
                 </View>
 
                 <View style = {styles.ContainerInputaolado}>
-                <Text style = {styles.estiloTexto}>Peso(g):   </Text> 
+                <Text style = {styles.estiloTexto}>Peso(Kg):   </Text> 
                 <TextInput style = {styles.estiloInputaolado}
                  value={peso}
                  onChangeText={setPeso}
-                 placeholder = "Ex: 10000g = 10Kg"
+                 placeholder = "Ex: 70Kg"
                  keyboardType="numeric"
                  ></TextInput> 
                 </View>
@@ -187,7 +189,7 @@ const handleVoltar = () => {
                     <Text style = {styles.textoBotaoVolta} onPress ={handleVoltar}>Voltar</Text>
                 </TouchableOpacity>
 
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

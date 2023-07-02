@@ -86,12 +86,12 @@ export default function Login({ handleLogin }) {
       </Animatable.View>
 
       <Animatable.View animation="fadeInUp" style={styles.CaixaTotal}>
-        <Text style={styles.title}>Email</Text>
+        <Text style={styles.title}>Nome de Usuário</Text>
         <TextInput
           style={styles.estiloinput}
           onChangeText={setEmail}
           value={email}
-          placeholder="Digite seu email"
+          placeholder="Digite seu nome de usuário"
           keyboardType="ascii-capable"
         />
 

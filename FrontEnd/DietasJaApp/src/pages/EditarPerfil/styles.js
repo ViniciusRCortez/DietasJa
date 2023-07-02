@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create(
     {
@@ -117,7 +119,7 @@ const styles = StyleSheet.create(
             justifyContent: "center",
             width: "65%",
             backgroundColor:"#38a69d",
-            paddingTop: 14,
+            paddingTop: height * 0.013,
             paddingBottom: 14,
             marginLeft: "auto",
             marginRight:"auto",
@@ -127,7 +129,8 @@ const styles = StyleSheet.create(
         estilobotaoVoltar:{
           alignItems: "center",
           justifyContent: "center",
-          marginTop: 20,
+          paddingTop: height * 0.02,
+          marginBottom: height * 0.05,
         },
 
         textoBotao:{

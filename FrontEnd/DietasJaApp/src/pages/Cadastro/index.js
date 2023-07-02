@@ -10,7 +10,7 @@ import { API_BASE_URL } from "../../config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TelaCadastro(){
-    const [textButton, setTextButton] = useState("Login");
+    const [textButton, setTextButton] = useState("Avançar");
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
