@@ -2,12 +2,17 @@
   "expo": {
     "name": "appDietasJa",
     "slug": "appDietasJa",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "icon": "./src/assets/res/mipmap-xxxhdpi/ic_launcher.png",
+    "version": "1.1.0",
+    "assetBundlePatterns": ["**/*"],
+    "extra": {
+      "eas": {
+        "projectId": "5c54cc76-7143-49ae-bdce-06fcf033da57"
+      }
+    },
+    "android": {
+      "package": "com.vinisicius.appDietasJa",
+      "versionCode": 4
+    }
   }
 }
-
-
-
