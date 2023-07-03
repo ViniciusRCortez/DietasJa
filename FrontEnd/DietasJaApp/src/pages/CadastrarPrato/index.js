@@ -254,7 +254,7 @@ export default function CadastrarPrato() {
       </View>
 
       <View style={styles.CaixaInfoMenorContainer}>
-        <Text style={styles.estiloTexto}>kCalorias:        </Text>
+        <Text style={styles.estiloTexto}>Kcalorias:        </Text>
         <TextInput
           style={styles.CaixaInfoMenorInput}
           editable={false}

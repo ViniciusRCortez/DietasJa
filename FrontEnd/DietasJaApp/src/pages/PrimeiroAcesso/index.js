@@ -92,7 +92,7 @@ async function cadastro(nome, valoratual, idade, altura, peso){
             <View style = {styles.CaixaTitulo}>
             <Image source = {require("../../assets/outralogo.png")}
                    style = {styles.imagemEstilo}></Image>
-            <Text style = {styles.textoTitulo}>Dietas Já!</Text>
+            <Text style = {styles.textoTitulo}>DietasJá</Text>
             </View>
 
             <Text style = {styles.textoSub}>Primeiro Acesso</Text>

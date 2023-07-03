@@ -11,10 +11,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 10,
     alignItems: "center",
-    shadowColor: '#fff',
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 30,
   },
   modalContainer: {
     flex: 1,

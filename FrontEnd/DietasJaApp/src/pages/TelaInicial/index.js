@@ -56,7 +56,7 @@ export default function TelaInicial() {
           console.log("print")
           if (error.response?.status == undefined){
             console.log("Usuario nao tem meta");
-            Alert.alert("Bem vindo(a)!", "Você ainda não possui uma meta cadastrada!\nCadastre-a em editar Meta no menu lateral. ");
+            Alert.alert("Bem vindo(a)!", "Você ainda não possui uma meta cadastrada!\nCadastre-a em Editar Meta no menu lateral. ");
           } 
           else{
             console.log("usuario ja tem meta");

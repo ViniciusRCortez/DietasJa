@@ -31,16 +31,14 @@ const styles = StyleSheet.create(
           width: 90,
           height: 50,
           top: 49,
-          right: 89,
+          right: 76,
         },
         textoSub:{
             fontSize: 30,
             color: "#fff",
             fontWeight: "bold",
             marginTop: 15,
-            left: 22,
-            height: 35,
-            textDecorationLine: 'underline',
+            textAlign: "center"
         },
         CaixaForm:{
             flex:2, 
@@ -120,6 +118,7 @@ const styles = StyleSheet.create(
             marginLeft: "auto",
             marginRight:"auto",
             marginTop: 15,
+            marginBottom: height * 0.05,
         },
 
         textoBotao:{

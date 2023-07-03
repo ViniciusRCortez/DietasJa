@@ -20,7 +20,6 @@ export default function Perfil(){
     const [peso, setPeso] = useState('')
     const [isLoading, setIsLoading] = useState(true);
 
-
     const navigation = useNavigation();
 
       useEffect(() => { // useEffect: executa após a renderização dos componentes
@@ -58,26 +57,6 @@ export default function Perfil(){
         }
         finally {
           setIsLoading(false);
-        }
-    }
-
-    async function deleteUser(){
-        try {
-          const token = await AsyncStorage.getItem('jwt')
-          const response = await axios.delete(`${API_BASE_URL}/delete-user/`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          if (response.status == 200){
-            navigation.navigate(Login)
-            Alert.alert("Saudades!","Seu usuário foi deletado com sucesso");
-            console.log(response.data)
-          } else{
-            console.log(response.data)
-          }
-        } catch (error) {
-          console.log(error)
         }
     }
 
@@ -145,10 +124,6 @@ export default function Perfil(){
 
                 <TouchableOpacity style={styles.estilobotao} onPress= {handleAlterarInformacoes}>
                     <Text style = {styles.textoBotao}>Alterar Informações</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style = {styles.estilobotao} onPress={deleteUser}>
-                    <Text style = {styles.textoBotao}>Deletar Conta</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.estilobotaoVoltar} onPress={handleVoltar}>
