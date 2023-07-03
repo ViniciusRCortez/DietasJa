@@ -42,8 +42,9 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo quantidade deve ser numérico.");
 			return false;
         }
-        if (Number.isInteger(parseFloat(carboidratos))) {
-            var carboidratosFloat = parseFloat(carboidratos);
+        const carboidratosFormatado = carboidratos.replace(".", ",")
+        if (Number.isInteger(parseFloat(carboidratosFormatado))) {
+            var carboidratosFloat = parseFloat(carboidratosFormatado);
             if (carboidratosFloat < 0) {
                 Alert.alert("Erro", "O campo carboidratos deve ser maior ou igual a zero.");
 				return false;
@@ -52,8 +53,9 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo carboidratos deve ser numérico.");
 			return false;
 		}
-        if (Number.isInteger(parseFloat(proteinas))) {
-            var proteinasFloat = parseFloat(proteinas);
+        const proteinasFormatado = proteinas.replace(".", ",");
+        if (Number.isInteger(parseFloat(proteinasFormatado))) {
+            var proteinasFloat = parseFloat(proteinasFormatado);
             if (proteinasFloat < 0) {
                 Alert.alert("Erro", "O campo proteínas deve ser maior ou igual a zero.");
 				return false;
@@ -62,8 +64,9 @@ export default function CadastrarPrato() {
             Alert.alert("Erro", "O campo proteínas deve ser numérico.");
 			return false;
         }
-		if (Number.isInteger(parseFloat(gorduras))) {
-            var gordurasFloat = parseFloat(gorduras);
+        const gordurasFormatado = gorduras.replace(".", ",");
+		if (Number.isInteger(parseFloat(gordurasFormatado))) {
+            var gordurasFloat = parseFloat(gordurasFormatado);
             if (gordurasFloat < 0) {
                 Alert.alert("Erro", "O campo gorduras deve ser positivo.");
 				return false;
@@ -85,7 +88,7 @@ export default function CadastrarPrato() {
             // Insere os dados recebidos da requisição na lista de pratos
             var pratos = [];
             for (var i=0; i<resposta.data.length; i++) {
-                pratos.push({id: resposta.data[i]["id"], nome: resposta.data[i]["nome"], quantidade: resposta.data[i]["porcao"], kcal: resposta.data[i]["qtd_calorias"]/1000, proteinas: resposta.data[i]["qtd_proteinas"], carboidratos: resposta.data[i]["qtd_carboidratos"], gorduras: resposta.data[i]["qtd_gorduras"]});
+                pratos.push({id: resposta.data[i]["id"], nome: resposta.data[i]["nome"], quantidade: resposta.data[i]["porcao"], kcal: (resposta.data[i]["qtd_calorias"]/1000).toFixed(2), proteinas: resposta.data[i]["qtd_proteinas"], carboidratos: resposta.data[i]["qtd_carboidratos"], gorduras: resposta.data[i]["qtd_gorduras"]});
             }
             // Atualiza a lista de pratos
             setListaPratos(pratos);
@@ -120,7 +123,7 @@ export default function CadastrarPrato() {
                 id: resposta.data["id"], // Pega o id do JSON retornado pela requisição que deu certo
                 nome: nome,
                 quantidade: quantidade,
-                kcal: calorias/1000,
+                kcal: (calorias/1000).toFixed(2),
                 gorduras: gorduras,
                 proteinas: proteinas,
                 carboidratos: carboidratos,
@@ -260,7 +263,7 @@ export default function CadastrarPrato() {
           editable={false}
           placeholder={
             `${
-                (4*(parseFloat(proteinas) + parseFloat(carboidratos)) + 9*parseFloat(gorduras)) >= 0 ? (4*(parseFloat(proteinas) + parseFloat(carboidratos)) + 9*parseFloat(gorduras)) : ""
+                (4*(parseFloat(proteinas) + parseFloat(carboidratos)) + 9*parseFloat(gorduras)) >= 0 ? ((4*(parseFloat(proteinas) + parseFloat(carboidratos)) + 9*parseFloat(gorduras))).toFixed(2) : ""
             }`
             }
         />
