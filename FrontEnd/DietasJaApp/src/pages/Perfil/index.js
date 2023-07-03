@@ -19,13 +19,13 @@ export default function Perfil(){
     const [altura, setAltura] = useState('')
     const [peso, setPeso] = useState('')
     const [isLoading, setIsLoading] = useState(true);
-
+    const [load, setLoad] = useState(true);
     const navigation = useNavigation();
 
       useEffect(() => { // useEffect: executa após a renderização dos componentes
         getUserInfo();
-        navigation.addListener('focus', getUserInfo);
-        }, [navigation]);
+        navigation.addListener('focus', ()=>setLoad(!load));
+        }, [load, navigation]);
     
       async function getUserInfo(){
         try {
